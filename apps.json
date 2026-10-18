@@ -1,0 +1,80 @@
+{
+  "color-walk": {
+    "slug": "color-walk",
+    "tree": "ef7171f94408ceb046ff7dabdf93492612f2ce26",
+    "commit": "28fa7a1e0e477cef6c5c749115eb422386880207",
+    "branch": "color-walk",
+    "committedAt": "2026-10-18T23:53:11.000Z",
+    "deployedAt": "2026-10-18T23:56:40.378Z",
+    "name": "Color Walk",
+    "title": "Color Walk",
+    "description": "A relaxed daily walk. A new color every day.",
+    "color": "#F7F3EC",
+    "icon": "color-walk/icons/apple-touch-icon.png"
+  },
+  "step-breaker": {
+    "slug": "step-breaker",
+    "tree": "69d71a063b45379a5bd25f35d66c7f5f6f7fab2e",
+    "commit": "a69f9d45ba841714aa7364d6839bccba94b35397",
+    "branch": "step-breaker",
+    "committedAt": "2026-10-18T23:52:25.000Z",
+    "deployedAt": "2026-10-18T23:56:41.621Z",
+    "name": "Pip",
+    "title": "Pip: tiny steps",
+    "description": "Pip turns scary tasks into tiny, doable steps.",
+    "color": "#FFF6EC",
+    "icon": "step-breaker/icons/apple-touch-icon.png"
+  },
+  "read-the-texts": {
+    "slug": "read-the-texts",
+    "tree": "bedee252f00477216e1fb3a5bd6808931b0a5e2e",
+    "commit": "b0c01d31b407a5c2aa22665e43c4409d4188bf47",
+    "branch": "read-the-texts",
+    "committedAt": "2026-10-18T23:53:25.000Z",
+    "deployedAt": "2026-10-18T23:56:43.107Z",
+    "name": "Read",
+    "title": "Read the Texts",
+    "description": "Screenshot the chat. Find out if they're into you.",
+    "color": "#0d0a12",
+    "icon": "read-the-texts/apple-touch-icon.png"
+  },
+  "translator": {
+    "slug": "translator",
+    "tree": "363ce01d65e8601e26d978495be4f8d4c1e6d7bf",
+    "commit": "23ca00f261fdf85fa83a5197ffc5fc06689c9449",
+    "branch": "translator",
+    "committedAt": "2026-10-18T23:52:27.000Z",
+    "deployedAt": "2026-10-18T23:56:45.930Z",
+    "name": "Oink",
+    "title": "Oink: your spending, translated",
+    "description": "Turn your spending and screen time into things you can actually feel.",
+    "color": "#FFF4E8",
+    "icon": "translator/icons/apple-touch-icon.png"
+  },
+  "tapes": {
+    "slug": "tapes",
+    "tree": "98062a765dd25d4d4491b18e820a9649fc1509c3",
+    "commit": "cbf0c26ae4ccccab50dae39aa4c64be53ec499c5",
+    "branch": "tapes",
+    "committedAt": "2026-10-18T23:56:04.000Z",
+    "deployedAt": "2026-10-18T23:56:49.688Z",
+    "name": "Tapes",
+    "title": "Tapes",
+    "description": "A voice journal where every recording becomes a cassette on your shelf.",
+    "color": "#F3EADB",
+    "icon": "tapes/apple-touch-icon.png"
+  },
+  "wrapped-for-two": {
+    "slug": "wrapped-for-two",
+    "tree": "6e6076ba1cc5cc6581e32858fc85ace9de65b2d3",
+    "commit": "a2c0b42706b1a3056b819c53815256bd4fd0a5a6",
+    "branch": "wrapped-for-two",
+    "committedAt": "2026-10-18T23:54:08.000Z",
+    "deployedAt": "2026-10-18T23:56:50.662Z",
+    "name": "Two of Us",
+    "title": "Two of Us",
+    "description": "A Wrapped-style story about you and your person.",
+    "color": "#0E0C14",
+    "icon": "wrapped-for-two/icon-180.png"
+  }
+}
