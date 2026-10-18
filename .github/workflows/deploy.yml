@@ -1,0 +1,53 @@
+# Builds every app in apps/<slug>/ from whichever branch changed it most
+# recently, and publishes them all to the gh-pages branch (GitHub Pages).
+# The real logic lives in hosting/deploy.mjs on the hosting branch, so this
+# file can stay the same in every branch that carries it.
+name: Deploy apps
+
+on:
+  push:
+    branches-ignore: [gh-pages]
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+    inputs:
+      rebuild_all:
+        description: Rebuild every app even if unchanged
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+env:
+  HOSTING_BRANCH: claude/idea-lab-hosting-uq6946
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build and publish
+        env:
+          REBUILD_ALL: ${{ inputs.rebuild_all || 'false' }}
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # Always use the hosting branch's copy of the deploy script and launcher.
+          if git rev-parse -q --verify "origin/$HOSTING_BRANCH" >/dev/null; then
+            git archive "origin/$HOSTING_BRANCH" hosting | tar -x -C "$RUNNER_TEMP"
+          else
+            cp -r hosting "$RUNNER_TEMP/"
+          fi
+          node "$RUNNER_TEMP/hosting/deploy.mjs"
