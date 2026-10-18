@@ -408,8 +408,8 @@ export default function Pet({
         <path d="M95 112 Q100 109 105 112 Q103 117 100 117.5 Q97 117 95 112 Z" fill="#f2879f" stroke={outline} strokeWidth="1.6" strokeLinejoin="round" />
       )}
       <Mouth species={species} expr={expr} y={mouthY} outline={outline} />
-      {species === 'cat' && (
-        <g stroke={outline} strokeWidth="2" strokeLinecap="round" opacity="0.55">
+      {species === 'cat' && !sticker && (
+        <g stroke={outline} strokeWidth="2" strokeLinecap="round" strokeOpacity="0.55">
           <path d="M44 112 L22 108" />
           <path d="M44 119 L22 122" />
           <path d="M156 112 L178 108" />
@@ -448,7 +448,7 @@ export default function Pet({
         <clipPath id={`head${uid}`}><ellipse cx="100" cy="96" rx="64" ry="56" /></clipPath>
         <clipPath id={`body${uid}`}><ellipse cx="100" cy="162" rx="47" ry="39" /></clipPath>
         {sticker && (
-          <filter id={`stk${uid}`} x="-20%" y="-20%" width="140%" height="140%">
+          <filter id={`stk${uid}`} filterUnits="userSpaceOnUse" x="-40" y="-60" width="280" height="340">
             <feMorphology in="SourceAlpha" operator="dilate" radius="7" result="d" />
             <feFlood floodColor="#ffffff" />
             <feComposite in2="d" operator="in" result="w" />
