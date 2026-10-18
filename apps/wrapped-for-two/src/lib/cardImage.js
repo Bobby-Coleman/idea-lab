@@ -50,7 +50,8 @@ async function head(ctx, person, cx, cy, r, color) {
   ctx.clip()
   if (person.face) await drawCover(ctx, person.face, cx - r, cy - r, r * 2, r * 2)
   else {
-    ctx.fillStyle = '#0E0C14'
+    const n = parseInt(color.slice(1), 16)
+    ctx.fillStyle = ((n >> 16) * 299 + ((n >> 8) & 255) * 587 + (n & 255) * 114) / 1000 < 110 ? '#fff' : '#0E0C14'
     ctx.font = `800 ${r}px ${F}`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'

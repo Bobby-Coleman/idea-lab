@@ -185,7 +185,7 @@ textarea { height: auto; padding: 16px 18px; line-height: 1.4; resize: none; fon
 .preview-tile { border-radius: 30px; aspect-ratio: 9 / 13; max-height: 52dvh; width: auto; align-self: center; min-width: 240px; padding: 22px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 12px; text-align: left; position: relative; overflow: hidden; margin: 6px 0; box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.6); }
 .preview-tile > * { position: relative; }
 .preview-tile .tpl-shape { position: absolute; width: 220px; height: 220px; top: -70px; right: -60px; }
-.preview-tile .tpl-shape.two { width: 90px; height: 90px; top: 40px; right: 150px; }
+.preview-tile .tpl-shape.two { width: 84px; height: 84px; top: 34px; right: 34px; }
 .pt-names { font-family: var(--display); font-weight: 800; font-size: 40px; line-height: 0.95; letter-spacing: -0.03em; }
 .pt-play { display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, 0.3); color: #fff; padding: 10px 16px; border-radius: 99px; font-weight: 700; font-size: 15px; }
 .pt-wm { position: absolute !important; bottom: 12px; right: 16px; font-size: 11px; opacity: 0.6; font-weight: 600; }
