@@ -6,6 +6,7 @@ import { usePlayer } from '../player'
 import { analyze, MOODS } from '../ai'
 import Cassette, { SHELLS, FREE_COLORS, DESIGNS, fmtDur } from './Cassette'
 import { Icon } from './Icons'
+import { makeShareCard } from '../shareCard'
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -41,6 +42,8 @@ export default function TapeDetail({ id }) {
   const [note, setNote] = useState(tape?.note || '')
   const [saved, setSaved] = useState(false)
   const [menu, setMenu] = useState(false)
+  const [card, setCard] = useState(null)
+  const heroRef = useRef(null)
   const noteTimer = useRef(null)
   const fileInput = useRef(null)
   const scrubRef = useRef(null)
@@ -126,6 +129,28 @@ export default function TapeDetail({ id }) {
     } catch {}
   }
 
+  async function openCard() {
+    setMenu(false)
+    try {
+      const blob = await makeShareCard(tape, heroRef.current.querySelector('svg'))
+      setCard({ blob, url: URL.createObjectURL(blob) })
+    } catch (e) {
+      console.warn(e)
+      toast('Couldn’t make the card')
+    }
+  }
+
+  async function shareCard() {
+    const file = new File([card.blob], `${tape.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}.png`, { type: 'image/png' })
+    try {
+      if (navigator.canShare?.({ files: [file] })) return await navigator.share({ files: [file], title: tape.title })
+    } catch { return }
+    const a = document.createElement('a')
+    a.href = card.url
+    a.download = file.name
+    a.click()
+  }
+
   async function remove() {
     setMenu(false)
     if (!confirm(`Throw away “${tape.title}”? This can’t be undone.`)) return
@@ -143,7 +168,7 @@ export default function TapeDetail({ id }) {
       </div>
 
       <div className="detail-hero">
-        <div className={`hero-tape ${player.playing ? 'playing' : ''}`}>
+        <div className={`hero-tape ${player.playing ? 'playing' : ''}`} ref={heroRef}>
           <Cassette tape={tape} spinning={player.playing} progress={player.progress} />
         </div>
       </div>
@@ -276,9 +301,22 @@ export default function TapeDetail({ id }) {
       {tape.prompt && <p className="prompt-used typewriter">Prompt: {tape.prompt}</p>}
       <div className="detail-foot" />
 
+      {card && (
+        <div className="sheet-backdrop" onClick={() => setCard(null)}>
+          <div className="sheet card-sheet" onClick={(e) => e.stopPropagation()}>
+            <button className="icon-btn sheet-close" onClick={() => setCard(null)} aria-label="Close"><Icon.close /></button>
+            <h2>Your tape card</h2>
+            <img src={card.url} alt="Share card preview" className="card-preview" />
+            <button className="btn primary big" onClick={shareCard}><Icon.share /> Share</button>
+            <p className="fine">Made for stories and group chats.</p>
+          </div>
+        </div>
+      )}
+
       {menu && (
         <div className="sheet-backdrop" onClick={() => setMenu(false)}>
           <div className="action-sheet" onClick={(e) => e.stopPropagation()}>
+            <button onClick={openCard}><Icon.photo /> Share as a card</button>
             <button onClick={share}><Icon.share /> Share transcript</button>
             <button className="danger" onClick={remove}><Icon.trash /> Throw away tape</button>
             <button className="cancel" onClick={() => setMenu(false)}>Cancel</button>

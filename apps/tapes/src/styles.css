@@ -450,3 +450,5 @@ textarea, input { font: inherit; color: inherit; -webkit-user-select: text; user
 .dots i { width: 7px; height: 7px; border-radius: 4px; background: #2B242030; transition: width .2s; }
 .dots i.on { width: 20px; background: var(--ink); }
 .ob-copy .link-btn { margin-top: 10px; }
+
+.card-preview { display: block; width: 72%; margin: 6px auto 16px; border-radius: 10px; box-shadow: 0 16px 30px -14px #4a301a99; }
