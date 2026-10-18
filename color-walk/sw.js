@@ -1,5 +1,5 @@
-const CACHE = 'color-walk-mvehidxk'
-const FILES = ["./","index.html","manifest.webmanifest","icons/icon-192.png","icons/icon-512.png","icons/apple-touch-icon.png","assets/index-NL_88h76.js","assets/index-2lceAtmK.css"]
+const CACHE = 'color-walk-mvehkyno'
+const FILES = ["./","index.html","manifest.webmanifest","icons/icon-192.png","icons/icon-512.png","icons/apple-touch-icon.png","assets/index-ChYWGXqf.js","assets/index-D81h_I3S.css"]
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()))
