@@ -40,11 +40,11 @@
   },
   "translator": {
     "slug": "translator",
-    "tree": "363ce01d65e8601e26d978495be4f8d4c1e6d7bf",
-    "commit": "23ca00f261fdf85fa83a5197ffc5fc06689c9449",
+    "tree": "24f8a148b8732528173904416e4a83cf38e07f2a",
+    "commit": "bcb1cb21a251880068d27e403489c3f80f997378",
     "branch": "translator",
-    "committedAt": "2026-10-18T23:52:27.000Z",
-    "deployedAt": "2026-10-18T23:56:45.930Z",
+    "committedAt": "2026-10-18T23:57:13.000Z",
+    "deployedAt": "2026-10-18T23:57:35.962Z",
     "name": "Oink",
     "title": "Oink: your spending, translated",
     "description": "Turn your spending and screen time into things you can actually feel.",
@@ -76,5 +76,18 @@
     "description": "A Wrapped-style story about you and your person.",
     "color": "#0E0C14",
     "icon": "wrapped-for-two/icon-180.png"
+  },
+  "pocket-pet": {
+    "slug": "pocket-pet",
+    "tree": "58344a29ebcf0e239487f26f205e3c90a810fe28",
+    "commit": "c48fcc8a15cc1ff95549399873b8399293e76119",
+    "branch": "claude/pocket-pet",
+    "committedAt": "2026-10-18T23:57:12.000Z",
+    "deployedAt": "2026-10-18T23:57:35.753Z",
+    "name": "Pocket Pet",
+    "title": "Pocket Pet",
+    "description": "Turn your real pet into a tiny buddy you can feed, pet and dress up.",
+    "color": "#fff6ec",
+    "icon": "pocket-pet/icons/apple-touch-icon.png"
   }
 }
