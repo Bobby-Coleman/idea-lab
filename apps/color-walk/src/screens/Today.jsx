@@ -3,7 +3,6 @@ import { setState, uid, useStore } from '../lib/store.js'
 import { COLORS, PACKS, alternatesFor, byId, colorForDay, dayKey } from '../lib/prompts.js'
 import { inkFor, mix } from '../lib/color.js'
 import { fmtClock, greeting, usePhoto } from '../lib/util.js'
-import { startTracking } from '../lib/geo.js'
 import { go, openPaywall } from '../lib/nav.js'
 import { Icon, Pip, Sheet } from '../components/ui.jsx'
 
@@ -19,7 +18,6 @@ export function startWalk(prompt) {
     activeId: id,
     walks: { ...s.walks, [id]: { id, day: key, promptId: prompt.id, startedAt: Date.now(), photos: [], route: [], distance: 0 } },
   }))
-  startTracking(id)
   go('walk')
 }
 
@@ -48,7 +46,7 @@ export default function Today() {
           <span className="hero-label">{prompt.id === daily.id ? 'Today’s walk' : prompt.kind === 'theme' ? 'Themed walk' : 'Your pick'}</span>
           <span className="hero-hex">{prompt.hex}</span>
         </div>
-        <div className="hero-pip"><Pip color={mix(prompt.hex, '#FFFFFF', 0.12)} size={132} /></div>
+        <div className="hero-pip"><Pip color={mix(prompt.hex, '#FFFFFF', 0.12)} size={112} /></div>
         <h2 className="hero-name">{prompt.name}</h2>
         <p className="hero-line">{prompt.line}</p>
         <p className="hero-goal">{prompt.kind === 'color' ? `Find ${prompt.count} things this color.` : `Take ${prompt.count} photos that fit.`}</p>
@@ -90,7 +88,7 @@ function DoneCard({ walk }) {
   const cover = usePhoto(walk.photos[0]?.id)
   return (
     <button className="card done-card" onClick={() => go(`w/${walk.id}`)}>
-      <div className="done-thumb" style={{ background: p.hex, backgroundImage: cover ? `url(${cover})` : undefined }} />
+      <div className="done-thumb" style={{ backgroundColor: p.hex, backgroundImage: cover ? `url(${cover})` : "none" }} />
       <div className="done-text">
         <div className="done-title"><Icon.check width="18" height="18" /> You walked today</div>
         <div className="muted small">{walk.photos.length} {p.name.toLowerCase()} finds · {fmtClock(walk.endedAt - walk.startedAt)} outside</div>

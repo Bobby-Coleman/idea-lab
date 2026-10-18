@@ -36,7 +36,7 @@ function spaced(ctx, text, x, y, spacing, align = 'left') {
 }
 
 function drawRoute(ctx, route, x, y, w, h, color) {
-  if (!route || route.length < 2) return false
+  if (!route || route.length < 3) return false
   const lat0 = route[0][0] * Math.PI / 180
   const pts = route.map(([la, lo]) => [lo * Math.cos(lat0), -la])
   const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1])
@@ -150,7 +150,7 @@ function drawGallery(ctx, walk, prompt, photos, meta) {
   })
 
   // Footer: route sketch + mark
-  const hasRoute = drawRoute(ctx, walk.route, W - 72 - 120, H - 72 - 70, 120, 70, prompt.hex)
+  const hasRoute = drawRoute(ctx, walk.route, W - 72 - 150, H - 118, 150, 56, prompt.hex)
   ctx.fillStyle = 'rgba(30,27,22,0.5)'
   ctx.font = `500 22px ${SANS}`
   spaced(ctx, 'NO PACE. JUST COLOR.', 72, H - 78, 3)
@@ -214,40 +214,44 @@ function drawChips(ctx, walk, prompt, photos, meta) {
 }
 
 function drawPalette(ctx, walk, prompt, photos, meta) {
-  const found = photos.length ? photos.map((p) => p.hex) : [prompt.hex]
-  // Tall color bands, each with a circular photo crop.
-  const bandH = H / found.length
-  found.forEach((hex, i) => {
-    ctx.fillStyle = hex
-    ctx.fillRect(0, i * bandH, W, bandH + 1)
-  })
-  const ink0 = inkFor(found[0])
-  header(ctx, ink0, meta)
-  photos.forEach((p, i) => {
-    const cy = i * bandH + bandH / 2
-    const r = Math.min(bandH * 0.36, 90)
-    const cx = W - 72 - r
+  const paper = '#FBF8F2'
+  ctx.fillStyle = paper
+  ctx.fillRect(0, 0, W, H)
+  header(ctx, '#1E1B16', meta)
+  const found = photos.length ? photos : [{ hex: prompt.hex }]
+  // Color bands, each with a round crop of the photo it came from.
+  const top = 150, bottom = H - 250
+  const bandH = (bottom - top) / found.length
+  found.forEach((p, i) => {
+    const y = top + i * bandH
+    ctx.fillStyle = p.hex
+    ctx.fillRect(72, y, W - 144, bandH + 0.5)
+    const r = Math.min(bandH * 0.36, 70)
+    const cx = W - 72 - 36 - r, cy = y + bandH / 2
     if (p.img) {
       ctx.save()
       ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.clip()
       cover(ctx, p.img, cx - r, cy - r, r * 2, r * 2)
       ctx.restore()
+      ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.lineWidth = 5
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke()
     }
-    const ink = inkFor(p.hex)
-    ctx.fillStyle = ink
+    ctx.fillStyle = inkFor(p.hex)
+    ctx.globalAlpha = 0.9
+    ctx.font = `600 30px ${SANS}`
+    ctx.fillText(nameColor(p.hex), 108, cy - 2)
+    ctx.globalAlpha = 0.7
     ctx.font = `500 22px ${MONO}`
-    ctx.globalAlpha = 0.8
-    ctx.fillText(`${p.hex}  ${nameColor(p.hex).toUpperCase()}`, 72, cy + (i === 0 ? 46 : 10))
+    ctx.fillText(p.hex, 108, cy + 30)
     ctx.globalAlpha = 1
   })
-  const last = found[found.length - 1]
-  ctx.fillStyle = inkFor(last)
-  ctx.font = `400 96px ${SERIF}`
-  ctx.fillText(prompt.name, 66, H - 110)
-  ctx.font = `italic 400 30px ${SERIF}`
-  ctx.globalAlpha = 0.8
-  ctx.fillText(meta.stats.join('  ·  '), 72, H - 60)
-  ctx.globalAlpha = 1
+  ctx.fillStyle = '#1E1B16'
+  ctx.font = `400 104px ${SERIF}`
+  ctx.fillText(prompt.name, 66, H - 120)
+  ctx.fillStyle = 'rgba(30,27,22,0.6)'
+  ctx.font = `italic 400 32px ${SERIF}`
+  ctx.fillText(meta.stats.join('  ·  '), 72, H - 66)
+  drawRoute(ctx, walk.route, W - 72 - 130, H - 200, 130, 120, prompt.hex)
 }
 
 export async function posterBlob(walk, opts) {
@@ -267,5 +271,69 @@ export async function sharePoster(walk, opts) {
   a.download = name
   a.click()
   setTimeout(() => URL.revokeObjectURL(a.href), 4000)
+  return 'downloaded'
+}
+
+// A month of walks as one mosaic: each day is a tile made of the colors found.
+export async function shareMonthPoster(walks, y, m) {
+  const c = document.createElement('canvas')
+  c.width = W; c.height = H
+  const ctx = c.getContext('2d')
+  ctx.fillStyle = '#FBF8F2'
+  ctx.fillRect(0, 0, W, H)
+  const month = new Date(y, m, 1)
+  const label = month.toLocaleDateString('en-US', { month: 'long' })
+  ctx.fillStyle = '#1E1B16'
+  ctx.font = `600 24px ${SANS}`
+  spaced(ctx, 'COLOR WALK', 72, 104, 6)
+  spaced(ctx, String(y), W - 72, 104, 4, 'right')
+  ctx.font = `400 128px ${SERIF}`
+  ctx.fillText(label, 66, 250)
+  const inMonth = walks.filter((w) => { const d = new Date(w.startedAt); return d.getFullYear() === y && d.getMonth() === m })
+  const finds = inMonth.reduce((a, w) => a + w.photos.length, 0)
+  ctx.fillStyle = 'rgba(30,27,22,0.62)'
+  ctx.font = `italic 400 34px ${SERIF}`
+  ctx.fillText(`${inMonth.length} walks  ·  ${finds} colors found`, 72, 312)
+  const byDay = {}
+  inMonth.forEach((w) => { byDay[new Date(w.startedAt).getDate()] ||= w })
+  const gap = 12, cell = (W - 144 - gap * 6) / 7
+  const offset = month.getDay()
+  const days = new Date(y, m + 1, 0).getDate()
+  for (let d = 1; d <= days; d++) {
+    const i = d - 1 + offset
+    const x = 72 + (i % 7) * (cell + gap), yy = 380 + Math.floor(i / 7) * (cell + gap)
+    const w = byDay[d]
+    ctx.save()
+    rr(ctx, x, yy, cell, cell, 18)
+    ctx.clip()
+    if (w && w.photos.length) {
+      const cols = w.photos.slice(0, 4)
+      const half = cell / 2
+      cols.forEach((p, k) => {
+        ctx.fillStyle = p.hex
+        if (cols.length === 1) ctx.fillRect(x, yy, cell, cell)
+        else ctx.fillRect(x + (k % 2) * half, yy + Math.floor(k / 2) * half, half + 1, cols.length === 2 ? cell : half + 1)
+      })
+    } else {
+      ctx.fillStyle = 'rgba(30,27,22,0.05)'
+      ctx.fillRect(x, yy, cell, cell)
+      ctx.fillStyle = 'rgba(30,27,22,0.3)'
+      ctx.font = `500 26px ${SANS}`
+      ctx.textAlign = 'center'
+      ctx.fillText(String(d), x + cell / 2, yy + cell / 2 + 9)
+      ctx.textAlign = 'left'
+    }
+    ctx.restore()
+  }
+  ctx.fillStyle = 'rgba(30,27,22,0.5)'
+  ctx.font = `500 22px ${SANS}`
+  spaced(ctx, 'NO PACE. JUST COLOR.', 72, H - 78, 3)
+  const blob = await new Promise((r) => c.toBlob(r, 'image/jpeg', 0.92))
+  const file = new File([blob], `color-walk-${label.toLowerCase()}.jpg`, { type: 'image/jpeg' })
+  if (navigator.canShare?.({ files: [file] })) {
+    try { await navigator.share({ files: [file] }); return 'shared' } catch { return 'cancelled' }
+  }
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(blob); a.download = file.name; a.click()
   return 'downloaded'
 }

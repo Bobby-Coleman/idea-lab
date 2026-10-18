@@ -41,7 +41,7 @@ export function fmtDistance(m, units = 'mi') {
 }
 
 export function fmtDuration(ms) {
-  const min = Math.max(0, Math.round(ms / 60000))
+  const min = Math.max(1, Math.round(ms / 60000))
   if (min < 60) return `${min} min`
   return `${Math.floor(min / 60)} hr ${min % 60} min`
 }

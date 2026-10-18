@@ -52,7 +52,7 @@ function paint(hex, r) {
     img.data[i] += n; img.data[i + 1] += n; img.data[i + 2] += n
   }
   ctx.putImageData(img, 0, 0)
-  return new Promise((res) => c.toBlob(res, 'image/jpeg', 0.8))
+  return new Promise((res) => c.toBlob((blob) => res({ blob, x: sx / 720, y: sy / 720 }), 'image/jpeg', 0.8))
 }
 
 function route(r) {
@@ -90,9 +90,10 @@ export async function loadSampleWalks(days = 34, onProgress) {
     for (let i = 0; i < n; i++) {
       const hex = jitter(prompt.hex, r)
       const id = uid()
-      await putPhoto(id, await paint(hex, r))
+      const { blob, x, y } = await paint(hex, r)
+      await putPhoto(id, blob)
       const dev = (r() * 3) | 0
-      photos.push({ id, hex, x: 0.5, y: 0.5, level: ['spot', 'spot', 'close'][dev], takenAt: start.getTime() + (i + 1) * (mins / (n + 1)) * 60000 })
+      photos.push({ id, hex, x, y, level: ['spot', 'spot', 'close'][dev], takenAt: start.getTime() + (i + 1) * (mins / (n + 1)) * 60000 })
     }
     const id = uid()
     walks[id] = {

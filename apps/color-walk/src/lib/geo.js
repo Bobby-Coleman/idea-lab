@@ -4,9 +4,12 @@ import { getState, updateWalk } from './store.js'
 
 let watchId = null
 let last = null
+let tracking = null
 
 export function startTracking(walkId) {
+  if (tracking === walkId && watchId != null) return
   stopTracking()
+  tracking = walkId
   if (!('geolocation' in navigator) || !getState().location) return
   watchId = navigator.geolocation.watchPosition(
     (pos) => {
@@ -27,6 +30,7 @@ export function stopTracking() {
   if (watchId != null) navigator.geolocation.clearWatch(watchId)
   watchId = null
   last = null
+  tracking = null
 }
 
 // Normalize a route into an SVG path inside a w x h box.

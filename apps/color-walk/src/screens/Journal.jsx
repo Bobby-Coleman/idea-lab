@@ -3,7 +3,8 @@ import { useStore } from '../lib/store.js'
 import { byId, colorForDay, dayKey } from '../lib/prompts.js'
 import { fmtDuration, MONTHS, usePhoto } from '../lib/util.js'
 import { loadSampleWalks } from '../lib/sample.js'
-import { go, openPaywall } from '../lib/nav.js'
+import { go, openPaywall, toast } from '../lib/nav.js'
+import { shareMonthPoster } from '../lib/poster.js'
 import { Icon, Pip } from '../components/ui.jsx'
 
 const FREE_DAYS = 7
@@ -98,7 +99,7 @@ export default function Journal() {
             )
           })}
         </div>
-        <button className="link-btn" onClick={() => (s.plus ? openPaywall('mosaic-soon') : openPaywall('mosaic'))}>
+        <button className="link-btn" onClick={async () => { if (!s.plus) return openPaywall('mosaic'); if ((await shareMonthPoster(walks, cursor.y, cursor.m)) === 'downloaded') toast('Mosaic saved') }}>
           <Icon.sparkle width="16" height="16" /> Make a month mosaic poster
         </button>
       </section>
@@ -126,7 +127,7 @@ function WalkRow({ walk, locked, onOpen }) {
   return (
     <button className={`walk-row ${locked ? 'locked' : ''}`} onClick={onOpen}>
       <div className="wr-thumbs" style={{ '--c': p.hex }}>
-        {[a, b, c].map((u, i) => <span key={i} style={{ backgroundImage: u ? `url(${u})` : undefined, background: u ? undefined : walk.photos[i]?.hex || p.hex }} />)}
+        {[a, b, c].map((u, i) => <span key={i} style={{ backgroundColor: walk.photos[i]?.hex || p.hex, backgroundImage: u ? `url(${u})` : 'none' }} />)}
       </div>
       <div className="wr-text">
         <b>{p.name}</b>

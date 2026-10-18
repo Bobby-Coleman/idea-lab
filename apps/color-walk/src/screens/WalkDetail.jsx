@@ -44,7 +44,7 @@ export default function WalkDetail({ id, fresh }) {
   const prompt = byId(walk.promptId)
   const duration = walk.endedAt - walk.startedAt
   const date = parseDay(walk.day)
-  const path = routePath(walk.route, 300, 160, 14)
+  const path = walk.distance > 40 ? routePath(walk.route, 300, 160, 14) : null
 
   async function share() {
     setBusy(true)
