@@ -89,5 +89,18 @@
     "description": "Turn your real pet into a tiny buddy you can feed, pet and dress up.",
     "color": "#fff6ec",
     "icon": "pocket-pet/icons/apple-touch-icon.png"
+  },
+  "tiny-lungs": {
+    "slug": "tiny-lungs",
+    "tree": "b3279466ce077426d49ea144ff191a92ce10d015",
+    "commit": "a8910aaf779cd43f5d20366211ce4ee8eca4faac",
+    "branch": "claude/tiny-lungs",
+    "committedAt": "2026-10-18T23:58:35.000Z",
+    "deployedAt": "2026-10-18T23:59:07.504Z",
+    "name": "Tiny Lungs",
+    "title": "Tiny Lungs",
+    "description": "Quit vaping for someone small.",
+    "color": "#DDF4EC",
+    "icon": "tiny-lungs/apple-touch-icon.png"
   }
 }
