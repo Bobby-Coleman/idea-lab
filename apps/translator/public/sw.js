@@ -1,5 +1,5 @@
 // Offline support: precache the app shell, then cache-first for everything same-origin.
-const CACHE = 'oink-v1'
+const CACHE = 'oink-v2'
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/apple-touch-icon.png']
 
 self.addEventListener('install', (e) => {
