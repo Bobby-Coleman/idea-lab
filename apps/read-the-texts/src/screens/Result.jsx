@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { deleteScan, openPaywall, setUI, toast, useStore } from '../store.js'
+import { askConfirm, deleteScan, openPaywall, setUI, toast, useStore } from '../store.js'
 import { back, go, useRoute } from '../router.js'
 import { HORSEMEN_INFO, PRONOUNS } from '../engine.js'
 import { Hearts, Icon, Mascot, NavBar, Ring, scoreColors } from '../components.jsx'
@@ -26,11 +26,12 @@ export default function Result({ id }) {
 
   const share = () => setUI({ share: scan.id })
   const remove = () => {
-    if (confirm(`Delete this read of ${scan.name}?`)) {
-      deleteScan(scan.id)
-      toast('Read deleted')
-      back()
-    }
+    askConfirm({
+      title: `Delete this read of ${scan.name}?`,
+      body: 'It will be removed from this phone.',
+      label: 'Delete read',
+      onConfirm: () => { deleteScan(scan.id); toast('Read deleted'); back() },
+    })
   }
 
   const breakdown = (

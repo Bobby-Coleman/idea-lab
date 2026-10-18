@@ -20,7 +20,7 @@ function load() {
 
 let state = load()
 // UI-only state that is never saved
-let ui = { paywall: null, toast: null }
+let ui = { paywall: null, toast: null, share: null, confirm: null }
 const subs = new Set()
 const emit = () => subs.forEach((f) => f())
 
@@ -49,6 +49,9 @@ export function setUI(patch) {
   ui = { ...ui, ...patch }
   emit()
 }
+
+// In-app confirm sheet (window.confirm looks out of place in a standalone app).
+export function askConfirm(opts) { setUI({ confirm: opts }) }
 
 export function openPaywall(reason = 'breakdown') { setUI({ paywall: reason }) }
 export function closePaywall() { setUI({ paywall: null }) }

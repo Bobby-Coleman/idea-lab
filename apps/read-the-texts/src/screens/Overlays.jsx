@@ -130,6 +130,23 @@ export function ShareSheet() {
   )
 }
 
+export function ConfirmSheet() {
+  const { confirm } = useUI()
+  if (!confirm) return null
+  const close = () => setUI({ confirm: null })
+  return (
+    <div className="overlay" onClick={close}>
+      <div className="sheet" onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
+        <div className="grabber" />
+        <h3 style={{ fontFamily: 'var(--display)', fontWeight: 900, fontSize: 22, margin: '6px 0 6px' }}>{confirm.title}</h3>
+        <p className="muted" style={{ margin: '0 0 20px', fontSize: 15 }}>{confirm.body}</p>
+        <button className="btn" style={{ background: 'var(--red)', color: 'white' }} onClick={() => { close(); confirm.onConfirm() }}>{confirm.label}</button>
+        <button className="btn btn-ghost" style={{ marginTop: 10 }} onClick={close}>Cancel</button>
+      </div>
+    </div>
+  )
+}
+
 export function Toast() {
   const { toast: t } = useUI()
   return t ? <div className="toast" key={t}>{t}</div> : null

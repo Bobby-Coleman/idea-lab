@@ -8,7 +8,7 @@ import Analyzing from './screens/Analyzing.jsx'
 import Result from './screens/Result.jsx'
 import Settings from './screens/Settings.jsx'
 import { People, Person } from './screens/People.jsx'
-import { Onboarding, Paywall, ShareSheet, Toast } from './screens/Overlays.jsx'
+import { ConfirmSheet, Onboarding, Paywall, ShareSheet, Toast } from './screens/Overlays.jsx'
 
 const TABS = new Set(['', 'people'])
 
@@ -40,6 +40,7 @@ export default function App() {
       {!s.onboarded && <Onboarding />}
       <ShareSheet />
       <Paywall />
+      <ConfirmSheet />
       <Toast />
     </div>
   )

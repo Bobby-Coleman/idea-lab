@@ -1,4 +1,4 @@
-import { openPaywall, resetAll, setState, toast, useStore } from '../store.js'
+import { askConfirm, openPaywall, resetAll, setState, toast, useStore } from '../store.js'
 import { back, go } from '../router.js'
 import { Icon, Mascot, NavBar } from '../components.jsx'
 
@@ -35,7 +35,12 @@ export default function Settings() {
         <div className="item"><span className="grow">Reads saved</span><span className="val">{s.scans.length}</span></div>
         <div className="item"><span className="grow">Stored on</span><span className="val">This phone only</span></div>
         <button className="item danger" onClick={() => {
-          if (confirm('Delete every read and start over?')) { resetAll(); toast('All data cleared'); go('/', { replace: true }) }
+          askConfirm({
+            title: 'Delete all your reads?',
+            body: 'Every read and trend on this phone will be erased. This can\u2019t be undone.',
+            label: 'Delete everything',
+            onConfirm: () => { resetAll(); toast('All data cleared'); go('/', { replace: true }) },
+          })
         }}><span className="grow">Delete all data</span><Icon.trash /></button>
       </div>
 
