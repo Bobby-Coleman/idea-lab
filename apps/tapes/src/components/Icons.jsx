@@ -1,0 +1,23 @@
+const P = { fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }
+export const Icon = {
+  back: (p) => <svg viewBox="0 0 24 24" width="24" height="24" {...p}><path d="M15 5l-7 7 7 7" {...P} /></svg>,
+  close: (p) => <svg viewBox="0 0 24 24" width="24" height="24" {...p}><path d="M6 6l12 12M18 6L6 18" {...P} /></svg>,
+  gear: (p) => <svg viewBox="0 0 24 24" width="24" height="24" {...p}><circle cx="12" cy="12" r="3" {...P} /><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z" {...P} strokeWidth="1.6" /></svg>,
+  shelf: (p) => <svg viewBox="0 0 24 24" width="26" height="26" {...p}><rect x="3" y="4" width="7" height="6" rx="1.2" {...P} /><rect x="14" y="4" width="7" height="6" rx="1.2" {...P} /><path d="M2 12.5h20M2 21h20" {...P} /><rect x="5" y="14" width="7" height="5" rx="1.2" {...P} /></svg>,
+  mixtape: (p) => <svg viewBox="0 0 24 24" width="26" height="26" {...p}><path d="M4 19V9M9 19V5M14 19v-7M19 19V8" {...P} /></svg>,
+  play: (p) => <svg viewBox="0 0 24 24" width="26" height="26" {...p}><path d="M8 5.5v13a1 1 0 001.5.9l10-6.5a1 1 0 000-1.7l-10-6.5A1 1 0 008 5.5z" fill="currentColor" /></svg>,
+  pause: (p) => <svg viewBox="0 0 24 24" width="26" height="26" {...p}><rect x="6" y="5" width="4.5" height="14" rx="1.2" fill="currentColor" /><rect x="13.5" y="5" width="4.5" height="14" rx="1.2" fill="currentColor" /></svg>,
+  rew: (p) => <svg viewBox="0 0 24 24" width="24" height="24" {...p}><path d="M11 6l-7 6 7 6V6zM20 6l-7 6 7 6V6z" fill="currentColor" /></svg>,
+  ff: (p) => <svg viewBox="0 0 24 24" width="24" height="24" {...p}><path d="M13 6l7 6-7 6V6zM4 6l7 6-7 6V6z" fill="currentColor" /></svg>,
+  more: (p) => <svg viewBox="0 0 24 24" width="24" height="24" {...p}><circle cx="5" cy="12" r="1.8" fill="currentColor" /><circle cx="12" cy="12" r="1.8" fill="currentColor" /><circle cx="19" cy="12" r="1.8" fill="currentColor" /></svg>,
+  photo: (p) => <svg viewBox="0 0 24 24" width="22" height="22" {...p}><rect x="3" y="5" width="18" height="15" rx="2.5" {...P} /><circle cx="12" cy="12.5" r="3.5" {...P} /><path d="M8 5l1.5-2h5L16 5" {...P} /></svg>,
+  lock: (p) => <svg viewBox="0 0 24 24" width="16" height="16" {...p}><rect x="5" y="11" width="14" height="10" rx="2" {...P} /><path d="M8 11V8a4 4 0 018 0v3" {...P} /></svg>,
+  sparkle: (p) => <svg viewBox="0 0 24 24" width="16" height="16" {...p}><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" fill="currentColor" /><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z" fill="currentColor" /></svg>,
+  shuffle: (p) => <svg viewBox="0 0 24 24" width="18" height="18" {...p}><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5" {...P} /></svg>,
+  share: (p) => <svg viewBox="0 0 24 24" width="22" height="22" {...p}><path d="M12 3v12M7 8l5-5 5 5" {...P} /><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" {...P} /></svg>,
+  trash: (p) => <svg viewBox="0 0 24 24" width="20" height="20" {...p}><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" {...P} /></svg>,
+  pen: (p) => <svg viewBox="0 0 24 24" width="18" height="18" {...p}><path d="M4 20l4-1L19 8l-3-3L5 16l-1 4z" {...P} /></svg>,
+  book: (p) => <svg viewBox="0 0 24 24" width="22" height="22" {...p}><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2V5z" {...P} /><path d="M4 19a2 2 0 012-2h13v4H6a2 2 0 01-2-2z" {...P} /></svg>,
+  mic: (p) => <svg viewBox="0 0 24 24" width="22" height="22" {...p}><rect x="9" y="3" width="6" height="11" rx="3" {...P} /><path d="M5 11a7 7 0 0014 0M12 18v3" {...P} /></svg>,
+  check: (p) => <svg viewBox="0 0 24 24" width="18" height="18" {...p}><path d="M5 12.5l4.5 4.5L19 7" {...P} strokeWidth="2.4" /></svg>,
+}
