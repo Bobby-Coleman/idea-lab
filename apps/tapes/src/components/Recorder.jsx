@@ -138,7 +138,9 @@ export default function Recorder() {
     const now = new Date()
     const id = `t-${now.getTime().toString(36)}`
     const text = transcript || ''
-    const ai = analyze({ transcript: text, date: now, id, prompt })
+    const ai = demo
+      ? { title: 'The corner bakery', mood: 'Nostalgic', themes: ['Family', 'Food', 'Gratitude'], summary: 'A looking-back tape about grandma, the corner bakery and a plan for Sunday. The line that stood out: “It smells exactly the same, cinnamon and burnt sugar.”' }
+      : analyze({ transcript: text, date: now, id, prompt })
     const tape = {
       id,
       createdAt: now.getTime(),
@@ -179,7 +181,7 @@ export default function Recorder() {
   }
 
   function shelve() {
-    back('/')
+    location.replace('#/')
   }
 
   const recording = phase === 'recording'
@@ -188,6 +190,7 @@ export default function Recorder() {
   const tapeProgress = Math.min(1, seconds / 300)
 
   return (
+    <>
     <div className={`screen recorder ${labeling ? 'is-labeling' : ''}`}>
       <div className="rec-top">
         <button className="icon-btn" onClick={cancel} aria-label="Close"><Icon.close /></button>
@@ -242,7 +245,7 @@ export default function Recorder() {
         )}
         {active && (
           <div className="live">
-            {live ? <p className="live-text">{live.split(' ').slice(-28).join(' ')}</p> : <p className="hint">{recording ? 'Listening…' : 'Paused. Press PAUSE again to keep going.'}</p>}
+            {live ? <p className="live-text">{live.split(' ').slice(-16).join(' ')}</p> : <p className="hint">{recording ? 'Listening…' : 'Paused. Press PAUSE again to keep going.'}</p>}
             <p className="hint small">Press <b>STOP</b> when you’re done.</p>
           </div>
         )}
@@ -257,6 +260,7 @@ export default function Recorder() {
           </div>
         )}
       </div>
+    </div>
 
       {labeling && result && (
         <div className="label-overlay">
@@ -283,7 +287,7 @@ export default function Recorder() {
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
 

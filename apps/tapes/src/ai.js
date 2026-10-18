@@ -20,7 +20,7 @@ export const THEMES = {
   Health: ['sleep', 'run', 'running', 'gym', 'tired', 'sick', 'workout', 'doctor', 'body', 'stretch', 'ran'],
   Creativity: ['idea', 'ideas', 'write', 'writing', 'draw', 'paint', 'song', 'build', 'app', 'design', 'create', 'notebook', 'sketch'],
   Gratitude: ['grateful', 'thankful', 'lucky', 'appreciate', 'blessed', 'thanks'],
-  Stress: ['stress', 'stressed', 'anxious', 'worried', 'overwhelmed', 'pressure', 'panic', 'nervous', 'nerves'],
+  Stress: ['stress', 'stressed', 'deadline', 'embarrassed', "can't sleep", 'anxious', 'worried', 'overwhelmed', 'pressure', 'panic', 'nervous', 'nerves'],
   Nature: ['outside', 'sun', 'sunset', 'rain', 'beach', 'park', 'trees', 'sky', 'lake', 'leaves', 'ocean', 'walk'],
   Music: ['music', 'guitar', 'piano', 'sing', 'singing', 'record', 'album', 'playlist'],
   Food: ['dinner', 'coffee', 'cook', 'cooking', 'breakfast', 'lunch', 'pancakes', 'recipe', 'cake'],
@@ -218,10 +218,11 @@ export function monthStats(tapes) {
 export function headline(stats) {
   const [theme, n] = stats.themeList[0] || []
   if (!theme) return 'Record a few tapes and your mixtape notes will appear here.'
-  if (stats.themeList.find(([t]) => t === 'Stress') && theme === 'Work') {
-    const s = stats.themeList.find(([t]) => t === 'Stress')[1]
-    return `You mentioned work ${n} times this month, and stress came along ${s} of those times.`
-  }
+  const stress = stats.themeList.find(([t]) => t === 'Stress')?.[1] || 0
+  if (theme === 'Work' && stress >= 3) return `You mentioned work ${n} times this month, and stress came along for ${stress} of them.`
+  const person = stats.people[0]
+  if (person && person[1] >= 3) return `You mentioned ${theme.toLowerCase()} ${n} times this month, and your ${person[0]} came up ${person[1]} times.`
+  if (stats.stressTapes.length >= 2) return `You mentioned ${theme.toLowerCase()} ${n} times this month. ${stats.stressTapes.length} tapes sounded anxious, mostly late at night.`
   return `You mentioned ${theme.toLowerCase()} ${n} times this month.`
 }
 

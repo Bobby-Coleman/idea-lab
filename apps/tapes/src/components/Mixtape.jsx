@@ -139,7 +139,7 @@ export default function Mixtape() {
                 <div className="lock-card">
                   <Icon.lock width="22" height="22" />
                   <h3>See your whole {name} mix</h3>
-                  <p>Themes, your mood wave, the people you talk about and liner notes written from your tapes.</p>
+                  <p>Themes, your mood wave, your people and liner notes written from your tapes.</p>
                   <button className="btn primary" onClick={() => showPaywall('insights')}>Unlock with Tapes Plus</button>
                 </div>
               </div>
