@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffcb4a"/>
+      <stop offset="1" stop-color="#f08a00"/>
+    </linearGradient>
+    <radialGradient id="mound" cx="0.45" cy="0.3" r="0.7">
+      <stop offset="0" stop-color="#b77a43"/>
+      <stop offset="1" stop-color="#5a3518"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="0.3" cy="0.15" r="0.7">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#glow)"/>
+  <ellipse cx="512" cy="1010" rx="560" ry="250" fill="url(#mound)"/>
+  <ellipse cx="512" cy="820" rx="70" ry="34" fill="#1e1006"/>
+  <g transform="translate(512 470) rotate(-90)" fill="#1a110a" stroke="#1a110a" stroke-linecap="round">
+    <g stroke-width="26" fill="none">
+      <path d="M-40 0 L-110 -150 L-150 -190"/>
+      <path d="M-40 0 L-110 150 L-150 190"/>
+      <path d="M10 0 L20 -170 L0 -230"/>
+      <path d="M10 0 L20 170 L0 230"/>
+      <path d="M50 0 L130 -150 L190 -175"/>
+      <path d="M50 0 L130 150 L190 175"/>
+      <path d="M180 -20 L260 -90 L320 -70" stroke-width="18"/>
+      <path d="M180 20 L260 90 L320 70" stroke-width="18"/>
+    </g>
+    <ellipse cx="-150" cy="0" rx="130" ry="95"/>
+    <ellipse cx="15" cy="0" rx="62" ry="44"/>
+    <ellipse cx="150" cy="0" rx="70" ry="64"/>
+    <ellipse cx="-175" cy="-35" rx="55" ry="20" fill="#fff" opacity="0.22" stroke="none"/>
+  </g>
+</svg>
