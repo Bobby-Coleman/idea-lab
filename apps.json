@@ -102,5 +102,18 @@
     "description": "Quit vaping for someone small.",
     "color": "#DDF4EC",
     "icon": "tiny-lungs/apple-touch-icon.png"
+  },
+  "slow-reveal": {
+    "slug": "slow-reveal",
+    "tree": "08fa96883cfadea21111b3cf4adc9e27d174635a",
+    "commit": "d5839fc14f06ef8596fca43bb6e60f322df56114",
+    "branch": "claude/slow-reveal-hg3n0p",
+    "committedAt": "2026-10-19T00:42:44.000Z",
+    "deployedAt": "2026-10-19T00:42:58.273Z",
+    "name": "Slow Reveal",
+    "title": "Slow Reveal",
+    "description": "Send a gift that unwraps a little more every day until the big reveal.",
+    "color": "#fbf3e8",
+    "icon": "slow-reveal/apple-touch-icon.png"
   }
 }
