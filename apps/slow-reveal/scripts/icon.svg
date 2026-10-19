@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#f26b78"/><stop offset="1" stop-color="#c22f45"/></linearGradient>
+    <pattern id="st" width="64" height="64" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="64" height="64" fill="#fff6ee"/><rect width="26" height="64" fill="#f5a3ad"/></pattern>
+    <radialGradient id="gl" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff7d0"/><stop offset=".6" stop-color="#ffd36b"/><stop offset="1" stop-color="#f5a742"/></radialGradient>
+    <path id="hole" d="M768 370 L744 393 L759 427 L721 433 L719 470 L685 463 L664 482 L638 471 L610 475 L593 453 L565 445 L565 414 L534 399 L544 370 L539 343 L564 325 L558 288 L589 281 L607 256 L638 271 L666 242 L684 281 L722 265 L724 305 L752 317 L743 347 Z"/>
+    <mask id="m"><rect width="1024" height="1024" fill="#fff"/><use href="#hole" fill="#000"/></mask>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#5a0f1c" flood-opacity=".35"/></filter>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <g filter="url(#sh)">
+    <rect x="232" y="232" width="560" height="560" rx="64" fill="url(#gl)"/>
+    <g fill="#fff" opacity=".9"><path d="M660 320 l12 34 34 12 -34 12 -12 34 -12-34 -34-12 34-12z"/><circle cx="610" cy="410" r="9"/></g>
+    <g mask="url(#m)">
+      <rect x="232" y="232" width="560" height="560" rx="64" fill="url(#st)"/>
+      <rect x="474" y="232" width="76" height="560" fill="#e5b543"/>
+      <rect x="232" y="474" width="560" height="76" fill="#e5b543"/>
+      <rect x="500" y="232" width="14" height="560" fill="#f7d77c" opacity=".7"/>
+      <rect x="232" y="500" width="560" height="14" fill="#f7d77c" opacity=".7"/>
+    </g>
+    <use href="#hole" fill="none" stroke="#fffaf2" stroke-width="14" stroke-linejoin="round"/>
+    <g transform="translate(512 512) scale(1.4)">
+      <path d="M0 0 C-70-84-128-76-120-30 C-114 4-58 12 0 0Z" fill="#e5b543" stroke="#b98a22" stroke-width="6"/>
+      <path d="M0 0 C70-84 128-76 120-30 C114 4 58 12 0 0Z" fill="#e5b543" stroke="#b98a22" stroke-width="6"/>
+      <path d="M-8 4 L-48 104 L-24 96 L-14 120 L8 10Z" fill="#b98a22"/>
+      <path d="M8 4 L48 104 L24 96 L14 120 L-8 10Z" fill="#b98a22"/>
+      <rect x="-28" y="-26" width="56" height="50" rx="18" fill="#e5b543" stroke="#b98a22" stroke-width="6"/>
+    </g>
+  </g>
+</svg>
