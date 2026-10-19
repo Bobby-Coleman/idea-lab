@@ -9,6 +9,7 @@ function whenLabel(ms) {
   if (ms < HOUR) return `${Math.round(ms / 60000)} minutes`
   if (ms < DAY) return `${Math.round(ms / HOUR)} hours`
   const d = Math.round(ms / DAY)
+  if (d === 1) return '1 day'
   if (d === 7) return '1 week'
   if (d === 14) return '2 weeks'
   if (d === 30) return '1 month'

@@ -101,13 +101,13 @@ export default function Stats() {
 
       <div className="card">
         <h3>Your {fmtMoney(saved)} could be</h3>
-        {equivs.map(([e, price, what]) => (
+        {equivs.filter(([, price], i) => i === 0 || saved >= price).map(([e, price, what]) => (
           <div key={what} className="equiv">
             <span className="e">{e}</span>
             <span className="grow">
               {Math.floor(saved / price)} {what}
             </span>
-            <span className="small muted">{fmtMoney(price)} each</span>
+            <span className="small muted">${price} each</span>
           </div>
         ))}
       </div>
