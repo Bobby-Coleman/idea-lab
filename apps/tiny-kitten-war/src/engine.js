@@ -327,7 +327,7 @@ export class Game {
 
   addHazard(kind, x, y, o = {}) {
     const H = {
-      boulder: { r: 62, delay: 1.5, dmg: 20 },
+      boulder: { r: 62, delay: 1.5, dmg: 14 },
       fire: { r: 54, delay: 1.2, dmg: 16 },
       slam: { r: 120, delay: 0.95, dmg: 28 },
       stomp: { r: 190, delay: 1.0, dmg: 26 },
@@ -498,7 +498,7 @@ export class Game {
     for (let i = 0; i < 3; i++) this.part('star', e.x, e.y - e.def.h * 0.8, rand(-80, 80), rand(-140, -60), 0.7, '#ffe066', 6)
     sfx.bonk()
     const v = e.def.xp
-    this.drop('xp', e.x, e.y, v)
+    this.drop('xp', e.x, e.y, Math.round(v * (this.battle.xpMul || 1) + Math.random() * 0.4))
     if (Math.random() < 0.055) this.drop('fish', e.x + 8, e.y, 1)
     if (Math.random() < 0.02) this.drop('heart', e.x - 8, e.y, 1)
     if (Math.random() < 0.004) this.drop('magnet', e.x, e.y + 6, 1)
@@ -622,7 +622,7 @@ export class Game {
         vx = dx * e.spd * s - dy * e.spd * 0.3; vy = dy * e.spd * s + dx * e.spd * 0.3
         e.cd -= dt
         if (e.cd <= 0 && d < want * 1.4) {
-          e.cd = rand(2.2, 3.2)
+          e.cd = rand(2.6, 3.6)
           this.shoot('arrow', e.x + e.face * 20, e.y - 56, p.x, p.y - 14, 300, e.dmg)
         }
       } else if (e.def.charges) {
