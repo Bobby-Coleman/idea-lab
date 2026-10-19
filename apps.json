@@ -128,5 +128,18 @@
     "description": "Start with one anthill. End with the world.",
     "color": "#1a110a",
     "icon": "colony/apple-touch-icon.png"
+  },
+  "decision-journal": {
+    "slug": "decision-journal",
+    "tree": "f5ecf48d4ed492f370b45b2de3ce67d81f8f1932",
+    "commit": "430498ae8059bb8f362b4792af710132420cb439",
+    "branch": "claude/decision-journal-606dqe",
+    "committedAt": "2026-10-19T01:15:47.000Z",
+    "deployedAt": "2026-10-19T01:16:04.362Z",
+    "name": "Hindsight",
+    "title": "Hindsight: Decision Journal",
+    "description": "Log decisions as you make them. Hindsight checks back at 30, 60 and 90 days and tells you how often your gut is right.",
+    "color": "#f5f0e6",
+    "icon": "decision-journal/apple-touch-icon.png"
   }
 }
