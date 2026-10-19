@@ -115,5 +115,18 @@
     "description": "Send a gift that unwraps a little more every day until the big reveal.",
     "color": "#fbf3e8",
     "icon": "slow-reveal/apple-touch-icon.png"
+  },
+  "colony": {
+    "slug": "colony",
+    "tree": "03cd42640fe5d584e17f58d1ed1322dcf9653494",
+    "commit": "d71e873289f776f9a99acb527a59b3c10d127b26",
+    "branch": "claude/colony-ud9hb5",
+    "committedAt": "2026-10-19T00:57:06.000Z",
+    "deployedAt": "2026-10-19T00:57:21.747Z",
+    "name": "Colony",
+    "title": "Colony",
+    "description": "Start with one anthill. End with the world.",
+    "color": "#1a110a",
+    "icon": "colony/apple-touch-icon.png"
   }
 }
