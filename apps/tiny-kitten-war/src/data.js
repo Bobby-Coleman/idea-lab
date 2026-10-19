@@ -52,7 +52,7 @@ export const ENEMIES = {
   archer: { name: 'Archer', r: 18, hp: 18, spd: 58, dmg: 7, xp: 2, h: 108, ranged: 270 },
   charger: { name: 'Axe Knight', r: 25, hp: 110, spd: 42, dmg: 14, xp: 4, h: 124, heavy: 0.5, charges: true },
   whelp: { name: 'Wyrmling', r: 16, hp: 16, spd: 98, dmg: 6, xp: 1, h: 60, flies: true },
-  general: { name: 'General Bigboot', r: 58, hp: 2400, spd: 46, dmg: 22, xp: 0, h: 290, heavy: 0.97, boss: true },
+  general: { name: 'General Bigboot', r: 58, hp: 1900, spd: 46, dmg: 22, xp: 0, h: 290, heavy: 0.97, boss: true },
   elephant: { name: 'Sir Trunkalot', r: 74, hp: 4200, spd: 34, dmg: 28, xp: 0, h: 270, heavy: 0.98, boss: true },
   dragon: { name: 'Ashmaw the Dragon', r: 70, hp: 6400, spd: 70, dmg: 24, xp: 0, h: 260, heavy: 0.98, boss: true, flies: true },
 }

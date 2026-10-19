@@ -99,7 +99,7 @@ export class Game {
     this.o.onBanner?.({ title: this.battle.name, sub: this.battle.tagline, kicker: this.battle.place, ms: 2600 })
   }
 
-  xpNeed(l) { return Math.round(2 + l * 2.2 + l ** 1.4) }
+  xpNeed(l) { return Math.round(3 + l * 1.8) }
 
   recalc() {
     const P = this.perks, m = this.meta
@@ -692,7 +692,7 @@ export class Game {
             for (let i = 0; i < 7; i++) { const a = (i / 7) * TAU; this.addEnemy('footman', e.x + Math.cos(a) * 130, e.y + Math.sin(a) * 90) }
           } else if (d < 340) {
             e.state = 'slam'; e.st = 1
-            this.addHazard('slam', p.x, p.y, { dmg: 26 })
+            this.addHazard('slam', p.x, p.y, { dmg: 20 })
           } else e.st = 0.5
         }
       } else if (e.st <= 0) { e.state = 'walk'; e.st = rand(1.6, 2.4) }
