@@ -1,0 +1,16 @@
+{
+  "name": "Hindsight: Decision Journal",
+  "short_name": "Hindsight",
+  "description": "Log decisions as you make them. Hindsight checks back at 30, 60 and 90 days and tells you how often your gut is right.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f0e6",
+  "theme_color": "#f5f0e6",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
