@@ -141,5 +141,18 @@
     "description": "Log decisions as you make them. Hindsight checks back at 30, 60 and 90 days and tells you how often your gut is right.",
     "color": "#f5f0e6",
     "icon": "decision-journal/apple-touch-icon.png"
+  },
+  "unlock-gate": {
+    "slug": "unlock-gate",
+    "tree": "7d81f22dc20a0ffe5e793ff9dd609890532acba1",
+    "commit": "f5ebc51ec2a12507b669da99ac6bd3ea9adb2609",
+    "branch": "claude/unlock-gate-11x71g",
+    "committedAt": "2026-10-19T01:18:04.000Z",
+    "deployedAt": "2026-10-19T01:18:16.626Z",
+    "name": "Gate",
+    "title": "Unlock Gate",
+    "description": "Earn your scroll. Hold a plank, read a page or say a prayer before your social apps open.",
+    "color": "#f5efe3",
+    "icon": "unlock-gate/apple-touch-icon.png"
   }
 }
