@@ -1,0 +1,19 @@
+<!doctype html><html><body style="margin:0;background:#000">
+<canvas id="c" width="512" height="512"></canvas>
+<script type="module">
+import { paintKitten, paintEnemy } from '../src/sprites.js'
+import { COATS } from '../src/data.js'
+const c = document.getElementById('c'), x = c.getContext('2d')
+const g = x.createLinearGradient(0, 0, 0, 512)
+g.addColorStop(0, '#3a2350'); g.addColorStop(0.5, '#c4553f'); g.addColorStop(0.75, '#f6b25a')
+x.fillStyle = g; x.fillRect(0, 0, 512, 512)
+x.fillStyle = 'rgba(255,240,190,0.9)'; x.beginPath(); x.arc(256, 300, 120, 0, 7); x.fill()
+const s = document.createElement('canvas'); s.width = 512; s.height = 512
+paintEnemy(s, 'footman', 0.1, 4.2)
+x.save(); x.filter = 'brightness(0.25)'; x.drawImage(s, 120, -40); x.restore()
+x.fillStyle = '#5d9c3c'; x.fillRect(0, 410, 512, 102); x.fillStyle = '#2a1b14'; x.fillRect(0, 406, 512, 6)
+const k = document.createElement('canvas'); k.width = 380; k.height = 420
+paintKitten(k, COATS[0], 'helmet', 0.25, {})
+x.drawImage(k, -6, 70)
+window.done = true
+</script></body></html>
