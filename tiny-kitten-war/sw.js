@@ -1,5 +1,5 @@
-const CACHE = 'tkw-51507ac66c'
-const PRECACHE = ["./","assets/luckiest-guy-latin-400-normal-dJClyBWO.woff2","assets/nunito-latin-700-normal-Dort48En.woff2","assets/nunito-latin-800-normal-Dz8SOQK_.woff2","assets/nunito-latin-900-normal-BVB1fGs6.woff2","assets/luckiest-guy-latin-400-normal-f5b8-b44.woff","assets/nunito-latin-700-normal-OcDqTBcA.woff","assets/nunito-latin-800-normal-D-J0wlBY.woff","assets/nunito-latin-900-normal-CVn49sIn.woff","assets/index-F72JBj1f.css","assets/index-DQk1dMv6.js","apple-touch-icon.png","icon-192.png","icon-512.png","manifest.webmanifest"]
+const CACHE = 'tkw-43944c9f70'
+const PRECACHE = ["./","assets/luckiest-guy-latin-400-normal-dJClyBWO.woff2","assets/nunito-latin-700-normal-Dort48En.woff2","assets/nunito-latin-800-normal-Dz8SOQK_.woff2","assets/nunito-latin-900-normal-BVB1fGs6.woff2","assets/luckiest-guy-latin-400-normal-f5b8-b44.woff","assets/nunito-latin-700-normal-OcDqTBcA.woff","assets/nunito-latin-800-normal-D-J0wlBY.woff","assets/nunito-latin-900-normal-CVn49sIn.woff","assets/index-F72JBj1f.css","assets/index-C0F1P_4A.js","apple-touch-icon.png","icon-192.png","icon-512.png","manifest.webmanifest"]
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRECACHE)).then(() => self.skipWaiting()))
