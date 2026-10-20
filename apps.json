@@ -252,5 +252,21 @@
     "firstDeployedAt": "2026-10-20T17:21:11.093Z",
     "shotTree": "4522bf8ce12ffbe38468bd1e690298bfdcdd9e7b",
     "shotAt": "2026-10-20T17:21:33.098Z"
+  },
+  "two-words": {
+    "slug": "two-words",
+    "tree": "8ddf482cff43965d38e338037ad8e61d14834f14",
+    "commit": "b143190e9cad26a7048e903d459de86b55a5eac3",
+    "branch": "claude/idea-lab-hosting-uq6946",
+    "committedAt": "2026-10-20T17:25:15.000Z",
+    "deployedAt": "2026-10-20T17:25:50.649Z",
+    "name": "Two Words",
+    "title": "Two Words",
+    "description": "Two unrelated words to spark a new idea. Save the good ones.",
+    "color": "#ffffff",
+    "icon": "two-words/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-20T17:25:50.649Z",
+    "shotTree": "8ddf482cff43965d38e338037ad8e61d14834f14",
+    "shotAt": "2026-10-20T17:26:07.109Z"
   }
 }
