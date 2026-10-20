@@ -10,7 +10,10 @@
     "title": "Color Walk",
     "description": "A relaxed daily walk. A new color every day.",
     "color": "#F7F3EC",
-    "icon": "color-walk/icons/apple-touch-icon.png"
+    "icon": "color-walk/icons/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-18T23:58:40.536Z",
+    "shotTree": "83241293e30c8725a97d1e7dca3d255ccd342d0b",
+    "shotAt": "2026-10-20T17:05:11.754Z"
   },
   "step-breaker": {
     "slug": "step-breaker",
@@ -23,7 +26,10 @@
     "title": "Pip: tiny steps",
     "description": "Pip turns scary tasks into tiny, doable steps.",
     "color": "#FFF6EC",
-    "icon": "step-breaker/icons/apple-touch-icon.png"
+    "icon": "step-breaker/icons/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-18T23:56:41.621Z",
+    "shotTree": "69d71a063b45379a5bd25f35d66c7f5f6f7fab2e",
+    "shotAt": "2026-10-20T17:05:15.170Z"
   },
   "read-the-texts": {
     "slug": "read-the-texts",
@@ -36,7 +42,10 @@
     "title": "Read the Texts",
     "description": "Screenshot the chat. Find out if they're into you.",
     "color": "#0d0a12",
-    "icon": "read-the-texts/apple-touch-icon.png"
+    "icon": "read-the-texts/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-18T23:56:43.107Z",
+    "shotTree": "bedee252f00477216e1fb3a5bd6808931b0a5e2e",
+    "shotAt": "2026-10-20T17:05:18.964Z"
   },
   "translator": {
     "slug": "translator",
@@ -49,7 +58,10 @@
     "title": "Oink: your spending, translated",
     "description": "Turn your spending and screen time into things you can actually feel.",
     "color": "#FFF4E8",
-    "icon": "translator/icons/apple-touch-icon.png"
+    "icon": "translator/icons/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-18T23:57:35.962Z",
+    "shotTree": "24f8a148b8732528173904416e4a83cf38e07f2a",
+    "shotAt": "2026-10-20T17:05:22.353Z"
   },
   "tapes": {
     "slug": "tapes",
@@ -62,7 +74,10 @@
     "title": "Tapes",
     "description": "A voice journal where every recording becomes a cassette on your shelf.",
     "color": "#F3EADB",
-    "icon": "tapes/apple-touch-icon.png"
+    "icon": "tapes/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-18T23:59:27.633Z",
+    "shotTree": "aa29f1fed835b521cbabd6e51e3eaa5bfc7cd426",
+    "shotAt": "2026-10-20T17:05:25.896Z"
   },
   "wrapped-for-two": {
     "slug": "wrapped-for-two",
@@ -75,7 +90,10 @@
     "title": "Two of Us",
     "description": "A Wrapped-style story about you and your person.",
     "color": "#0E0C14",
-    "icon": "wrapped-for-two/icon-180.png"
+    "icon": "wrapped-for-two/icon-180.png",
+    "firstDeployedAt": "2026-10-18T23:57:21.636Z",
+    "shotTree": "2616512debf4f70c9091e0de30f0711ca52bd86e",
+    "shotAt": "2026-10-20T17:05:29.433Z"
   },
   "pocket-pet": {
     "slug": "pocket-pet",
@@ -88,7 +106,10 @@
     "title": "Pocket Pet",
     "description": "Turn your real pet into a tiny buddy you can feed, pet and dress up.",
     "color": "#fff6ec",
-    "icon": "pocket-pet/icons/apple-touch-icon.png"
+    "icon": "pocket-pet/icons/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-18T23:59:23.476Z",
+    "shotTree": "234d8bf147c2655c0444c9528a0d390e6c48065d",
+    "shotAt": "2026-10-20T17:05:32.947Z"
   },
   "tiny-lungs": {
     "slug": "tiny-lungs",
@@ -101,7 +122,10 @@
     "title": "Tiny Lungs",
     "description": "Quit vaping for someone small.",
     "color": "#DDF4EC",
-    "icon": "tiny-lungs/apple-touch-icon.png"
+    "icon": "tiny-lungs/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-19T00:02:11.849Z",
+    "shotTree": "4120b25f1ea93a4cd1bc85fdaff55cc11e4ebb35",
+    "shotAt": "2026-10-20T17:05:36.648Z"
   },
   "slow-reveal": {
     "slug": "slow-reveal",
@@ -114,7 +138,10 @@
     "title": "Slow Reveal",
     "description": "Send a gift that unwraps a little more every day until the big reveal.",
     "color": "#fbf3e8",
-    "icon": "slow-reveal/apple-touch-icon.png"
+    "icon": "slow-reveal/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-19T00:42:58.273Z",
+    "shotTree": "08fa96883cfadea21111b3cf4adc9e27d174635a",
+    "shotAt": "2026-10-20T17:05:40.333Z"
   },
   "colony": {
     "slug": "colony",
@@ -127,7 +154,10 @@
     "title": "Colony",
     "description": "Start with one anthill. End with the world.",
     "color": "#1a110a",
-    "icon": "colony/apple-touch-icon.png"
+    "icon": "colony/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-19T00:57:21.747Z",
+    "shotTree": "03cd42640fe5d584e17f58d1ed1322dcf9653494",
+    "shotAt": "2026-10-20T17:05:44.127Z"
   },
   "decision-journal": {
     "slug": "decision-journal",
@@ -140,7 +170,10 @@
     "title": "Hindsight: Decision Journal",
     "description": "Log decisions as you make them. Hindsight checks back at 30, 60 and 90 days and tells you how often your gut is right.",
     "color": "#f5f0e6",
-    "icon": "decision-journal/apple-touch-icon.png"
+    "icon": "decision-journal/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-19T01:16:04.362Z",
+    "shotTree": "f5ecf48d4ed492f370b45b2de3ce67d81f8f1932",
+    "shotAt": "2026-10-20T17:05:47.529Z"
   },
   "unlock-gate": {
     "slug": "unlock-gate",
@@ -153,7 +186,10 @@
     "title": "Unlock Gate",
     "description": "Earn your scroll. Hold a plank, read a page or say a prayer before your social apps open.",
     "color": "#f5efe3",
-    "icon": "unlock-gate/apple-touch-icon.png"
+    "icon": "unlock-gate/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-19T01:18:16.626Z",
+    "shotTree": "7d81f22dc20a0ffe5e793ff9dd609890532acba1",
+    "shotAt": "2026-10-20T17:05:50.831Z"
   },
   "tiny-kitten-war": {
     "slug": "tiny-kitten-war",
@@ -166,6 +202,35 @@
     "title": "Tiny Kitten War",
     "description": "A very big war. A very small cat.",
     "color": "#2b1d3a",
-    "icon": "tiny-kitten-war/apple-touch-icon.png"
+    "icon": "tiny-kitten-war/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-19T01:37:21.924Z",
+    "shotTree": "6c11a56dd55f1fcd8618f85057ce8384ba1a1464",
+    "shotAt": "2026-10-20T17:05:54.334Z"
+  },
+  "_sites": {
+    "riffraff": {
+      "url": "https://bobby-coleman.github.io/jacked-box/",
+      "shotAt": "2026-10-20T17:05:57.898Z"
+    },
+    "ethos": {
+      "url": "https://ethos.sarl/",
+      "shotAt": "2026-10-20T17:06:02.635Z"
+    },
+    "the-chamber": {
+      "url": "https://bobby-coleman.github.io/the-chamber-1/",
+      "shotAt": "2026-10-20T17:06:32.245Z"
+    },
+    "whisker": {
+      "url": "https://bobby-coleman.github.io/WHISKER/",
+      "shotAt": "2026-10-20T17:06:43.105Z"
+    },
+    "play-me": {
+      "url": "https://rork-play-me.vercel.app/",
+      "shotAt": "2026-10-20T17:06:46.995Z"
+    },
+    "cursed-depths": {
+      "url": "https://bobby-coleman.github.io/CURSED-DEPTHS-3-DESKTOP/",
+      "shotAt": "2026-10-20T17:06:51.681Z"
+    }
   }
 }
