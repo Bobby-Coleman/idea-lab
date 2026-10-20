@@ -1,0 +1,9 @@
+{
+  "name": "scrappy-web-snapshot",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Prebuilt web export of Scrappy (Bobby-Coleman/scrappy). Refresh with ./snapshot.sh <scrappy checkout>.",
+  "scripts": {
+    "build": "rm -rf dist && cp -r web dist"
+  }
+}

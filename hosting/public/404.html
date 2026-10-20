@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Idea Lab</title>
+<script>
+  // GitHub Pages serves this for any missing path. Apps that use real URL paths
+  // (like Scrappy) land here when reloaded on an inner page, so send them back
+  // to their own start page; anything else goes to the launcher.
+  var parts = location.pathname.split('/')
+  var home = '/' + (parts[1] || '') + '/'
+  var app = parts.length > 3 ? home + parts[2] + '/' : null
+  location.replace(app && app !== location.pathname ? app : home)
+</script>

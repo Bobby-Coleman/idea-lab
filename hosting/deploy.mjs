@@ -97,21 +97,23 @@ function readInfo(slug) {
   const linkHref = (rel) => attr(new RegExp(`<link[^>]*rel=["']${rel}["'][^>]*href=["']([^"']+)`, 'i')) ||
     attr(new RegExp(`<link[^>]*href=["']([^"']+)["'][^>]*rel=["']${rel}["']`, 'i'))
   const metaContent = (name) => attr(new RegExp(`<meta[^>]*name=["']${name}["'][^>]*content=["']([^"']*)`, 'i'))
+  // Apps built with an absolute base (e.g. Expo's baseUrl) link to /<repo>/<slug>/...
+  const local = (p) => p && p.replace(new RegExp(`^/[^/]+/${slug}/`), './')
   let manifest = {}
   let manifestBase = '.'
-  const mHref = linkHref('manifest')
+  const mHref = local(linkHref('manifest'))
   if (mHref && !/^https?:/.test(mHref)) {
     try {
       manifest = JSON.parse(fs.readFileSync(path.join(dir, mHref), 'utf8'))
       manifestBase = path.posix.dirname(mHref)
     } catch {}
   }
-  let icon = linkHref('apple-touch-icon')
+  let icon = local(linkHref('apple-touch-icon'))
   if (!icon && manifest.icons?.length) {
     const best = [...manifest.icons].filter((i) => i.purpose !== 'maskable').sort((a, b) => parseInt(b.sizes) - parseInt(a.sizes))[0] || manifest.icons[0]
     icon = path.posix.join(manifestBase, best.src)
   }
-  if (!icon) icon = linkHref('icon')
+  if (!icon) icon = local(linkHref('icon'))
   const clean = (p) => p && !/^https?:|^data:/.test(p) ? path.posix.normalize(`${slug}/${p}`) : p
   return {
     name: metaContent('apple-mobile-web-app-title') || manifest.short_name || manifest.name || attr(/<title>([^<]*)<\/title>/i) || slug,
