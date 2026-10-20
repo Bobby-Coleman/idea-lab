@@ -1,0 +1,9 @@
+[
+  { "id": "riffraff", "name": "RiffRaff", "title": "RiffRaff: Party Games", "url": "https://bobby-coleman.github.io/jacked-box/", "repo": "jacked-box", "description": "Phone-only party games. No TV, no console, just everyone's phones.", "color": "#ff5a36" },
+  { "id": "ethos", "name": "Ethos", "title": "Ethos", "url": "https://ethos.sarl/", "repo": "ethos", "description": "Personal LifeOS dashboard: durable capture and a governed memory, behind an invite-only sign-in.", "color": "#2b2b33" },
+  { "id": "jimothy-simulator", "name": "Jimothy", "title": "Jimothy Simulator", "url": "https://bobby-coleman.github.io/jimothy-simulator/", "repo": "jimothy-simulator", "description": "Goat Simulator-style physics sandbox starring Jimothy, the round raccoon of Ballard.", "color": "#5c8d3a" },
+  { "id": "the-chamber", "name": "The Chamber", "title": "The Chamber", "url": "https://bobby-coleman.github.io/the-chamber-1/", "repo": "the-chamber-1", "description": "A level-based WebGPU survival game.", "color": "#3a2f52" },
+  { "id": "whisker", "name": "Whisker", "title": "Whisker", "url": "https://bobby-coleman.github.io/WHISKER/", "repo": "WHISKER", "description": "Live from the WHISKER repo.", "color": "#c27b3e" },
+  { "id": "play-me", "name": "Play Me", "title": "Play Me", "url": "https://rork-play-me.vercel.app/", "repo": "rork-play-me", "description": "Built with Rork, live on Vercel.", "color": "#7b5cff" },
+  { "id": "cursed-depths", "name": "Cursed Depths", "title": "Cursed Depths", "url": "https://bobby-coleman.github.io/CURSED-DEPTHS-3-DESKTOP/", "repo": "CURSED-DEPTHS-3-DESKTOP", "description": "A roguelike dungeon crawler with curses.", "color": "#7a1f2b" }
+]

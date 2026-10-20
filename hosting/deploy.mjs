@@ -154,28 +154,121 @@ async function worker() {
 }
 await Promise.all(Array.from({ length: PARALLEL }, worker))
 
-// ---- 4. Launcher and commit ------------------------------------------------
+// ---- 4. Screenshots --------------------------------------------------------
+// Each card on the launcher shows a phone-size screenshot. Apps are shot from
+// the freshly published copy whenever they're rebuilt; Bobby's other live
+// sites (hosting/sites.json) are re-shot every few hours. A failed shot keeps
+// the previous one, and nothing here can fail the deploy.
 
-const live = Object.values(meta).filter((m) => m.tree && fs.existsSync(path.join(SITE, m.slug, 'index.html')))
-  .sort((a, b) => a.name.localeCompare(b.name))
-const pending = apps.filter((a) => !live.some((m) => m.slug === a.slug)).map((a) => ({ slug: a.slug, name: a.slug, failed: meta[a.slug]?.failedTree === a.tree }))
-const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
+const SHOTS = path.join(SITE, 'shots')
+fs.mkdirSync(SHOTS, { recursive: true })
+const sites = JSON.parse(fs.readFileSync(path.join(HERE, 'sites.json'), 'utf8'))
+const siteMeta = meta._sites || {}
+const SITE_SHOT_MAX_AGE_MS = 6 * 60 * 60 * 1000
 
-const tiles = [
-  ...live.map((m) => `<a class="app" href="./${esc(m.slug)}/" style="--c:${esc(m.color)}">
-      <span class="icon">${m.icon ? `<img src="./${esc(m.icon)}" alt="" loading="lazy">` : esc(m.name.slice(0, 1))}${m.failedTree && m.failedTree !== m.tree ? '<i class="dot" title="Latest change failed to build"></i>' : ''}</span>
-      <span class="name">${esc(m.name)}</span>
-    </a>`),
-  ...pending.map((p) => `<div class="app soon">
-      <span class="icon">${p.failed ? '!' : '…'}</span>
-      <span class="name">${esc(p.name)}</span>
-    </div>`),
-].join('\n    ')
+for (const m of Object.values(meta)) {
+  if (m.tree && !m.firstDeployedAt) m.firstDeployedAt = m.deployedAt
+}
+const appShotsDue = Object.values(meta).filter((m) => m.tree && fs.existsSync(path.join(SITE, m.slug, 'index.html')) &&
+  (REBUILD_ALL || built.includes(m.slug) || !m.shotTree || m.shotTree !== m.tree || !fs.existsSync(path.join(SHOTS, `${m.slug}.jpg`))))
+const siteShotsDue = sites.filter((s) => REBUILD_ALL || !siteMeta[s.id]?.shotAt || siteMeta[s.id].url !== s.url ||
+  Date.now() - Date.parse(siteMeta[s.id].shotAt) > SITE_SHOT_MAX_AGE_MS || !fs.existsSync(path.join(SHOTS, `site-${s.id}.jpg`)))
 
-const rows = live.map((m) => `<li><a href="./${esc(m.slug)}/"><b>${esc(m.title)}</b><span>${esc(m.description)}</span></a><time datetime="${esc(m.deployedAt)}">${esc(m.deployedAt)}</time></li>`).join('\n      ')
+if (appShotsDue.length || siteShotsDue.length) {
+  try {
+    await takeShots(appShotsDue, siteShotsDue)
+  } catch (e) {
+    console.log(`::warning title=screenshots::${String(e.message || e).split('\n')[0]}`)
+  }
+}
+
+async function takeShots(appList, siteList) {
+  const { pathToFileURL } = await import('node:url')
+  // Installed here rather than in the workflow, because build branches carry
+  // their own (possibly older) copy of the workflow file.
+  let pwModule = process.env.PW_MODULE
+  if (!pwModule) {
+    const dir = path.join(TMP, 'pw')
+    execFileSync('npm', ['i', '--prefix', dir, '--no-audit', '--no-fund', '--silent', 'playwright-core@1.56.1'], { stdio: 'inherit' })
+    pwModule = path.join(dir, 'node_modules', 'playwright-core', 'index.mjs')
+  }
+  const chrome = process.env.CHROME_PATH || ['/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser', '/opt/pw-browsers/chromium/chrome-linux/chrome']
+    .find((f) => fs.existsSync(f))
+  const pw = await import(pathToFileURL(pwModule).href)
+  const chromium = pw.chromium || pw.default.chromium
+  const http = await import('node:http')
+  const types = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json', '.json': 'application/json', '.woff2': 'font/woff2', '.woff': 'font/woff', '.wasm': 'application/wasm', '.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.webp': 'image/webp' }
+  const server = http.createServer((req, res) => {
+    let p = decodeURIComponent(req.url.split('?')[0]).replace(/^\/idea-lab/, '')
+    if (p.endsWith('/')) p += 'index.html'
+    const f = path.join(SITE, path.normalize(p))
+    if (!f.startsWith(SITE) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { res.writeHead(404); return res.end() }
+    res.writeHead(200, { 'content-type': types[path.extname(f)] || 'application/octet-stream' })
+    fs.createReadStream(f).pipe(res)
+  })
+  await new Promise((r) => server.listen(0, '127.0.0.1', r))
+  const port = server.address().port
+  const browser = await chromium.launch({ executablePath: chrome, args: ['--enable-unsafe-swiftshader', '--use-angle=swiftshader'] })
+  const shoot = async (url, file) => {
+    const ctx = await browser.newContext({
+      viewport: { width: 390, height: 844 }, deviceScaleFactor: 1.5, isMobile: true, hasTouch: true,
+      serviceWorkers: 'block',
+      userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1',
+    })
+    try {
+      const page = await ctx.newPage()
+      await page.goto(url, { waitUntil: 'load', timeout: 30000 })
+      await page.waitForTimeout(3000)
+      await page.screenshot({ path: file, type: 'jpeg', quality: 70, timeout: 15000 })
+      return true
+    } catch (e) {
+      log(`screenshot failed for ${url}: ${String(e.message || e).split('\n')[0]}`)
+      return false
+    } finally {
+      await ctx.close().catch(() => {})
+    }
+  }
+  for (const m of appList) {
+    if (await shoot(`http://127.0.0.1:${port}/idea-lab/${m.slug}/`, path.join(SHOTS, `${m.slug}.jpg`))) {
+      m.shotTree = m.tree
+      m.shotAt = new Date().toISOString()
+      log(`${m.slug}: screenshot taken`)
+    }
+  }
+  for (const s of siteList) {
+    if (await shoot(s.url, path.join(SHOTS, `site-${s.id}.jpg`))) {
+      siteMeta[s.id] = { url: s.url, shotAt: new Date().toISOString() }
+      log(`site ${s.id}: screenshot taken`)
+    }
+  }
+  await browser.close()
+  server.close()
+}
+meta._sites = siteMeta
+
+// ---- 5. Launcher -----------------------------------------------------------
+
+const appMetas = Object.values(meta).filter((m) => m.tree && fs.existsSync(path.join(SITE, m.slug, 'index.html')))
+const shotUrl = (file, stamp) => fs.existsSync(path.join(SHOTS, file)) ? `./shots/${file}?v=${encodeURIComponent(stamp || '')}` : null
+const items = [
+  ...appMetas
+    .sort((a, b) => String(b.firstDeployedAt).localeCompare(String(a.firstDeployedAt)))
+    .map((m) => ({
+      id: `app:${m.slug}`, kind: 'prototype', name: m.name, title: m.title, description: m.description,
+      url: `./${m.slug}/`, icon: m.icon ? `./${m.icon}` : null, color: m.color,
+      shot: shotUrl(`${m.slug}.jpg`, m.shotAt), updatedAt: m.deployedAt, addedAt: m.firstDeployedAt,
+      broken: Boolean(m.failedTree && m.failedTree !== m.tree),
+    })),
+  ...sites.map((s) => ({
+    id: `site:${s.id}`, kind: 'site', name: s.name, title: s.title || s.name, description: s.description,
+    url: s.url, icon: null, color: s.color || '#555', shot: shotUrl(`site-${s.id}.jpg`, siteMeta[s.id]?.shotAt),
+    host: new URL(s.url).host + new URL(s.url).pathname.replace(/\/$/, ''),
+  })),
+]
 
 const template = fs.readFileSync(path.join(HERE, 'launcher.html'), 'utf8')
-fs.writeFileSync(path.join(SITE, 'index.html'), template.replace('<!--TILES-->', tiles).replace('<!--ROWS-->', rows).replace('<!--COUNT-->', String(live.length)))
+const data = JSON.stringify(items).replace(/</g, '\\u003c')
+fs.writeFileSync(path.join(SITE, 'index.html'), template.replace('/*ITEMS*/[]', data))
 fs.writeFileSync(META_FILE, JSON.stringify(meta, null, 2) + '\n')
 fs.writeFileSync(path.join(SITE, '.nojekyll'), '')
 fs.cpSync(path.join(HERE, 'public'), SITE, { recursive: true })

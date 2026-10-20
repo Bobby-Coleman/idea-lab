@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Idea Lab</title>
-  <meta name="description" content="Bobby's prototype apps.">
+  <meta name="description" content="Bobby's prototypes and live sites, ranked.">
   <meta name="theme-color" content="#0d0d12">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
@@ -17,9 +17,13 @@
     :root {
       --bg: #0d0d12;
       --fg: #f5f5f7;
-      --muted: rgba(245, 245, 247, 0.55);
-      --card: rgba(255, 255, 255, 0.07);
+      --muted: rgba(245, 245, 247, 0.58);
+      --faint: rgba(245, 245, 247, 0.35);
+      --card: rgba(255, 255, 255, 0.065);
+      --card-hi: rgba(255, 255, 255, 0.11);
       --line: rgba(255, 255, 255, 0.09);
+      --accent: #ff7a45;
+      --gold: #ffcc4d;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body { margin: 0; min-height: 100%; }
@@ -32,83 +36,305 @@
       background-attachment: fixed;
       color: var(--fg);
       font: 15px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-      padding: calc(env(safe-area-inset-top) + 28px) max(20px, env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + 32px) max(20px, env(safe-area-inset-left));
+      padding: calc(env(safe-area-inset-top) + 24px) max(16px, env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + 40px) max(16px, env(safe-area-inset-left));
       -webkit-font-smoothing: antialiased;
     }
-    main { max-width: 560px; margin: 0 auto; }
-    header { margin: 4px 6px 26px; }
+    main { max-width: 1180px; margin: 0 auto; }
+    header { margin: 4px 4px 18px; }
     h1 { font-size: 34px; letter-spacing: -0.02em; margin: 0; font-weight: 700; }
     header p { margin: 4px 0 0; color: var(--muted); }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 26px 10px;
-      padding: 0 2px;
+
+    .chips { display: flex; gap: 8px; margin: 0 2px 18px; overflow-x: auto; scrollbar-width: none; }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip {
+      flex: none; border: 1px solid var(--line); background: var(--card); color: var(--fg);
+      font: inherit; font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; cursor: pointer;
     }
-    .app {
-      display: flex; flex-direction: column; align-items: center; gap: 7px;
-      color: inherit; text-decoration: none; min-width: 0;
-    }
-    .icon {
+    .chip span { color: var(--muted); font-weight: 500; margin-left: 4px; }
+    .chip[aria-pressed="true"] { background: var(--fg); color: #111; border-color: var(--fg); }
+    .chip[aria-pressed="true"] span { color: rgba(0,0,0,0.5); }
+
+    #list { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 760px) { #list { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1120px) { #list { grid-template-columns: repeat(3, 1fr); } }
+
+    .card {
       position: relative;
-      width: 100%; max-width: 68px; aspect-ratio: 1;
-      border-radius: 23%;
-      background: var(--c, #444);
-      display: grid; place-items: center;
-      font-size: 28px; font-weight: 700; color: rgba(255,255,255,0.9);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-      overflow: visible;
-      transition: transform 0.15s ease;
+      display: grid; grid-template-columns: 112px 1fr 40px; gap: 14px;
+      padding: 12px; border-radius: 22px;
+      background: var(--card); border: 1px solid var(--line);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.25s cubic-bezier(.2,.8,.2,1);
+      will-change: transform;
     }
-    .icon img { width: 100%; height: 100%; border-radius: 23%; object-fit: cover; display: block; }
-    .app:active .icon { transform: scale(0.9); }
-    .dot { position: absolute; top: -4px; right: -4px; width: 14px; height: 14px; border-radius: 50%; background: #ff453a; border: 2px solid var(--bg); }
-    .name {
-      font-size: 12px; text-align: center; max-width: 100%;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    .card[hidden] { display: none; }
+    .card.dragging { transition: background 0.2s, box-shadow 0.2s; background: var(--card-hi); box-shadow: 0 18px 40px rgba(0,0,0,0.5); z-index: 5; }
+    .card.top1 { border-color: rgba(255, 204, 77, 0.45); }
+
+    .shot {
+      position: relative; display: block; width: 112px; aspect-ratio: 390 / 844;
+      border-radius: 16px; overflow: hidden; background: var(--c, #333);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 8px 20px rgba(0,0,0,0.35);
     }
-    .soon .icon { background: var(--card); border: 1px dashed var(--line); box-shadow: none; color: var(--muted); }
-    .soon .name { color: var(--muted); }
-    h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; margin: 44px 6px 10px; }
-    ul { list-style: none; margin: 0; padding: 0; background: var(--card); border-radius: 16px; overflow: hidden; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-    li { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-top: 1px solid var(--line); }
-    li:first-child { border-top: 0; }
-    li a { flex: 1; min-width: 0; color: inherit; text-decoration: none; display: flex; flex-direction: column; }
-    li b { font-weight: 600; }
-    li span { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-    li time { color: var(--muted); font-size: 12px; white-space: nowrap; }
-    .tip { margin: 28px 6px 0; color: var(--muted); font-size: 13px; }
-    .empty { color: var(--muted); padding: 30px 6px; }
+    .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+    .shot .ph { position: absolute; inset: 0; display: grid; place-items: center; font-size: 40px; font-weight: 800; color: rgba(255,255,255,0.85); }
+
+    .body { min-width: 0; display: flex; flex-direction: column; gap: 6px; padding-top: 2px; }
+    .row1 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .rank {
+      font: inherit; font-size: 13px; font-weight: 800; letter-spacing: 0.02em;
+      color: #111; background: var(--fg); border: 0; border-radius: 999px; padding: 3px 9px; cursor: pointer;
+    }
+    .top1 .rank { background: var(--gold); }
+    .pill { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    .pill.new { color: var(--accent); }
+    .pill.warn { color: #ff6b5e; }
+    h3 { margin: 2px 0 0; font-size: 19px; line-height: 1.2; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+    h3 img { width: 26px; height: 26px; border-radius: 7px; flex: none; }
+    h3 span { overflow: hidden; text-overflow: ellipsis; }
+    .desc { margin: 0; color: var(--muted); font-size: 14px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+    .when { font-size: 12px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .open {
+      margin-top: auto; align-self: flex-start;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.12); color: var(--fg); text-decoration: none;
+      font-weight: 600; font-size: 14px; padding: 8px 14px; border-radius: 999px;
+    }
+    .open:active { background: rgba(255,255,255,0.2); }
+
+    .mover { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+    .mover button {
+      width: 38px; height: 38px; border-radius: 12px; border: 0; background: transparent;
+      color: var(--muted); font-size: 18px; cursor: pointer; display: grid; place-items: center;
+    }
+    .mover button:active { background: rgba(255,255,255,0.1); color: var(--fg); }
+    .mover button:disabled { opacity: 0.2; }
+    .handle { touch-action: none; cursor: grab; height: 64px !important; }
+    .handle svg { width: 18px; height: 18px; }
+    .dragging .handle { cursor: grabbing; color: var(--fg); }
+
+    .tip { margin: 26px 6px 0; color: var(--faint); font-size: 13px; text-align: center; }
+    .tip button { font: inherit; color: var(--muted); background: none; border: 0; text-decoration: underline; cursor: pointer; padding: 0; }
   </style>
 </head>
 <body>
   <main>
     <header>
       <h1>Idea Lab</h1>
-      <p><!--COUNT--> prototypes. Tap one, then Share › Add to Home Screen.</p>
+      <p id="sub">Your prototypes and live sites, ranked.</p>
     </header>
-    <div class="grid">
-    <!--TILES-->
-    </div>
-    <h2>Recently updated</h2>
-    <ul id="rows">
-      <!--ROWS-->
-    </ul>
-    <p class="tip">Each app installs on its own and keeps its data on your phone.</p>
+    <nav class="chips" id="chips" aria-label="Filter"></nav>
+    <div id="list"></div>
+    <p class="tip">Drag <b>⋮⋮</b> or tap the arrows to rank. Tap a rank number to jump it. Your order is saved on this device. <button id="reset" type="button">Reset order</button></p>
   </main>
   <script>
-    // Newest first, with friendly relative times.
-    const list = document.getElementById('rows')
-    const items = [...list.children].sort((a, b) => b.querySelector('time').dateTime.localeCompare(a.querySelector('time').dateTime))
-    items.forEach((li) => list.appendChild(li))
-    const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
-    for (const t of list.querySelectorAll('time')) {
-      const s = (new Date(t.dateTime) - Date.now()) / 1000
-      const [v, u] = Math.abs(s) < 3600 ? [s / 60, 'minute'] : Math.abs(s) < 86400 ? [s / 3600, 'hour'] : [s / 86400, 'day']
-      t.textContent = rtf.format(Math.round(v), u)
+    const ITEMS = /*ITEMS*/[]
+    const KEY = 'idealab.rank.v1'
+    const FILTER_KEY = 'idealab.filter.v1'
+    const store = {
+      get(k) { try { return JSON.parse(localStorage.getItem(k)) } catch { return null } },
+      set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)) } catch {} },
+      del(k) { try { localStorage.removeItem(k) } catch {} },
     }
-    if (!items.length) list.outerHTML = '<p class="empty">Apps appear here as soon as they finish building.</p>'
+    const byId = new Map(ITEMS.map((it) => [it.id, it]))
+    const list = document.getElementById('list')
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
+    const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+    const ago = (iso) => {
+      const s = (new Date(iso) - Date.now()) / 1000
+      if (!isFinite(s)) return ''
+      const [v, u] = Math.abs(s) < 3600 ? [s / 60, 'minute'] : Math.abs(s) < 86400 ? [s / 3600, 'hour'] : [s / 86400, 'day']
+      return rtf.format(Math.round(v), u)
+    }
+
+    function savedOrder() {
+      const saved = (store.get(KEY) || []).filter((id) => byId.has(id))
+      const rest = ITEMS.map((it) => it.id).filter((id) => !saved.includes(id))
+      return [...saved, ...rest]
+    }
+
+    function card(it) {
+      const isNew = it.kind === 'prototype' && it.addedAt && Date.now() - new Date(it.addedAt) < 86400e3
+      const el = document.createElement('article')
+      el.className = 'card'
+      el.dataset.id = it.id
+      el.dataset.kind = it.kind
+      const target = it.kind === 'site' ? ' target="_blank" rel="noopener"' : ''
+      el.innerHTML = `
+        <a class="shot" href="${esc(it.url)}"${target} style="--c:${esc(it.color)}" aria-label="Open ${esc(it.title)}">
+          ${it.shot ? `<img src="${esc(it.shot)}" alt="" loading="lazy" decoding="async">` : `<span class="ph">${esc((it.name || '?').slice(0, 1))}</span>`}
+        </a>
+        <div class="body">
+          <div class="row1">
+            <button class="rank" type="button" aria-label="Change rank"></button>
+            <span class="pill">${it.kind === 'site' ? 'Live site' : 'Prototype'}</span>
+            ${isNew ? '<span class="pill new">New</span>' : ''}
+            ${it.broken ? '<span class="pill warn">Latest build failed</span>' : ''}
+          </div>
+          <h3>${it.icon ? `<img src="${esc(it.icon)}" alt="" loading="lazy">` : ''}<span>${esc(it.title)}</span></h3>
+          <p class="desc">${esc(it.description)}</p>
+          <div class="when">${it.kind === 'site' ? esc(it.host) : `Updated ${esc(ago(it.updatedAt))}`}</div>
+          <a class="open" href="${esc(it.url)}"${target}>Open ${it.kind === 'site' ? '↗' : '›'}</a>
+        </div>
+        <div class="mover">
+          <button class="up" type="button" aria-label="Move up">▲</button>
+          <button class="handle" type="button" aria-label="Drag to rank"><svg viewBox="0 0 18 18" fill="currentColor"><circle cx="6" cy="3" r="1.6"/><circle cx="12" cy="3" r="1.6"/><circle cx="6" cy="9" r="1.6"/><circle cx="12" cy="9" r="1.6"/><circle cx="6" cy="15" r="1.6"/><circle cx="12" cy="15" r="1.6"/></svg></button>
+          <button class="down" type="button" aria-label="Move down">▼</button>
+        </div>`
+      return el
+    }
+
+    const cards = () => [...list.children]
+    const visible = () => cards().filter((c) => !c.hidden)
+
+    function refresh() {
+      const all = cards()
+      all.forEach((c, i) => {
+        c.querySelector('.rank').textContent = `#${i + 1}`
+        c.classList.toggle('top1', i === 0)
+      })
+      const vis = visible()
+      vis.forEach((c, i) => {
+        c.querySelector('.up').disabled = i === 0
+        c.querySelector('.down').disabled = i === vis.length - 1
+      })
+    }
+    function save() { store.set(KEY, cards().map((c) => c.dataset.id)); refresh() }
+
+    // Animate cards from their old positions to the new ones.
+    function flip(mutate) {
+      const before = new Map(cards().map((c) => [c, c.getBoundingClientRect().top]))
+      // Grid layouts also shift sideways; only vertical motion is animated.
+      mutate()
+      for (const c of cards()) {
+        if (c.classList.contains('dragging')) continue
+        const dy = before.get(c) - c.getBoundingClientRect().top
+        if (!dy) continue
+        c.dataset.movedAt = Date.now()
+        c.style.transition = 'none'
+        c.style.transform = `translateY(${dy}px)`
+        requestAnimationFrame(() => { c.style.transition = ''; c.style.transform = '' })
+      }
+    }
+
+    function move(c, dir) {
+      const vis = visible()
+      const i = vis.indexOf(c)
+      const other = vis[i + dir]
+      if (!other) return
+      flip(() => dir < 0 ? other.before(c) : other.after(c))
+      save()
+    }
+
+    // Drag by the handle. The card follows the finger and takes the place of
+    // whichever card it's over. Near the screen edges the page scrolls, so a
+    // long list can be ranked in one drag.
+    let drag = null
+    function follow() {
+      const { c, x, y, offX, offY } = drag
+      c.style.transform = ''
+      const r = c.getBoundingClientRect()
+      c.style.transform = `translate(${x - offX - r.left}px, ${y - offY - r.top}px)`
+    }
+    function reorder() {
+      const { c, x, y } = drag
+      const over = document.elementFromPoint(x, y)?.closest('.card')
+      if (!over || over === c || over.hidden || Date.now() - (over.dataset.movedAt || 0) < 260) return
+      const all = cards()
+      flip(() => all.indexOf(over) < all.indexOf(c) ? over.before(c) : over.after(c))
+      refresh()
+    }
+    function tick() {
+      if (!drag) return
+      const edge = 90, h = window.innerHeight
+      const v = drag.y < edge ? -Math.ceil((edge - drag.y) / 5) : drag.y > h - edge ? Math.ceil((drag.y - (h - edge)) / 5) : 0
+      if (v) { window.scrollBy(0, v); reorder(); follow() }
+      drag.raf = requestAnimationFrame(tick)
+    }
+    list.addEventListener('pointerdown', (e) => {
+      const handle = e.target.closest('.handle')
+      if (!handle) return
+      e.preventDefault()
+      const c = handle.closest('.card')
+      const r = c.getBoundingClientRect()
+      drag = { c, x: e.clientX, y: e.clientY, offX: e.clientX - r.left, offY: e.clientY - r.top, raf: 0 }
+      c.classList.add('dragging')
+      c.style.pointerEvents = 'none'
+      tick()
+    })
+    window.addEventListener('pointermove', (e) => {
+      if (!drag) return
+      drag.x = e.clientX
+      drag.y = e.clientY
+      reorder()
+      follow()
+    })
+    function endDrag() {
+      if (!drag) return
+      cancelAnimationFrame(drag.raf)
+      const { c } = drag
+      drag = null
+      c.classList.remove('dragging')
+      c.style.pointerEvents = ''
+      c.style.transform = ''
+      save()
+    }
+    window.addEventListener('pointerup', endDrag)
+    window.addEventListener('pointercancel', endDrag)
+
+    list.addEventListener('click', (e) => {
+      const c = e.target.closest('.card')
+      if (!c) return
+      if (e.target.closest('.up')) move(c, -1)
+      else if (e.target.closest('.down')) move(c, 1)
+      else if (e.target.closest('.rank')) {
+        const all = cards()
+        const answer = prompt(`Move "${byId.get(c.dataset.id).title}" to rank (1 to ${all.length}):`, String(all.indexOf(c) + 1))
+        const n = parseInt(answer, 10)
+        if (!n || n < 1) return
+        const target = all[Math.min(n, all.length) - 1]
+        if (target === c) return
+        flip(() => all.indexOf(target) < all.indexOf(c) ? target.before(c) : target.after(c))
+        save()
+      }
+    })
+
+    // Filters
+    const filters = [
+      ['all', 'All', ITEMS.length],
+      ['prototype', 'Prototypes', ITEMS.filter((i) => i.kind === 'prototype').length],
+      ['site', 'Live sites', ITEMS.filter((i) => i.kind === 'site').length],
+    ]
+    const chips = document.getElementById('chips')
+    let filter = store.get(FILTER_KEY) || 'all'
+    chips.innerHTML = filters.map(([k, label, n]) => `<button class="chip" type="button" data-f="${k}">${label}<span>${n}</span></button>`).join('')
+    function applyFilter() {
+      for (const b of chips.children) b.setAttribute('aria-pressed', String(b.dataset.f === filter))
+      for (const c of cards()) c.hidden = filter !== 'all' && c.dataset.kind !== filter
+      refresh()
+    }
+    chips.addEventListener('click', (e) => {
+      const b = e.target.closest('.chip')
+      if (!b) return
+      filter = b.dataset.f
+      store.set(FILTER_KEY, filter)
+      applyFilter()
+    })
+
+    document.getElementById('reset').addEventListener('click', () => {
+      if (!confirm('Reset your ranking to the default order?')) return
+      store.del(KEY)
+      render()
+    })
+
+    function render() {
+      list.replaceChildren(...savedOrder().map((id) => card(byId.get(id))))
+      const n = ITEMS.filter((i) => i.kind === 'prototype').length
+      const s = ITEMS.length - n
+      document.getElementById('sub').textContent = `${n} prototypes and ${s} live sites, ranked your way.`
+      applyFilter()
+    }
+    render()
   </script>
 </body>
 </html>
