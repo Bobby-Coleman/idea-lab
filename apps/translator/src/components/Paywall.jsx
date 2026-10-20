@@ -3,10 +3,10 @@ import { Sheet, Icon } from './ui.jsx'
 import Mascot from './Mascot.jsx'
 
 const PERKS = [
-  ['🧾', 'Your full report', 'Every habit translated, plus the grand total'],
-  ['📈', 'Monthly check-ins', 'See if you are actually getting better'],
-  ['🗾', 'Savings goals', 'Put the difference toward Japan'],
-  ['🎨', 'All card styles', 'Every color, no watermark'],
+  ['🎀', 'Unlimited wishlist', 'Save for everything at once, not just 3 things'],
+  ['🧾', 'Monthly Girl Math Report', 'A shareable recap of how much you "made"'],
+  ['🧊', 'Streak freeze', 'Miss a day without losing your streak'],
+  ['🏆', 'Every badge and level', 'All the way to CFO of Vibes'],
 ]
 
 export default function Paywall({ open, onClose, onUnlock, reason }) {
@@ -23,15 +23,15 @@ export default function Paywall({ open, onClose, onUnlock, reason }) {
         <button className="icon-btn close" onClick={onClose} aria-label="Close"><Icon name="close" size={20} /></button>
         {done ? (
           <div className="pw-done">
-            <Mascot mood="wink" size={150} className="bounce" />
-            <h2>Welcome to Oink Plus</h2>
-            <p>Your full report is unlocked.</p>
+            <Mascot mood="wink" bow size={150} className="bounce" />
+            <h2>Welcome to Girl Math Plus</h2>
+            <p>Your wishlist has no limits now.</p>
           </div>
         ) : (
           <>
-            <Mascot mood="shocked" size={108} className="pw-pig" />
-            <h2>{reason || 'See the whole damage'}</h2>
-            <p className="pw-sub">You saw one card. The rest of the report is waiting.</p>
+            <Mascot mood="smug" bow size={108} className="pw-pig" />
+            <h2>{reason || 'Enter your Plus era'}</h2>
+            <p className="pw-sub">Technically it pays for itself after one skipped latte.</p>
             <ul className="perks">
               {PERKS.map(([e, t, s]) => (
                 <li key={t}><span className="perk-emoji">{e}</span><div><b>{t}</b><small>{s}</small></div></li>
@@ -39,7 +39,7 @@ export default function Paywall({ open, onClose, onUnlock, reason }) {
             </ul>
             <div className="plans">
               <button className={`plan ${plan === 'year' ? 'on' : ''}`} onClick={() => setPlan('year')}>
-                <span className="badge">Save 85%</span>
+                <span className="badge">Basically free</span>
                 <b>Yearly</b>
                 <span className="price">$29.99<small>/yr</small></span>
                 <small>Just $0.58 a week</small>

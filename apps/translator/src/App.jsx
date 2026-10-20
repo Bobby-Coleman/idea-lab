@@ -3,16 +3,16 @@ import { useStore } from './lib/store.js'
 import { TabBar, ShareSheet } from './components/ui.jsx'
 import Paywall from './components/Paywall.jsx'
 import Onboarding from './screens/Onboarding.jsx'
-import Translate from './screens/Translate.jsx'
-import Results from './screens/Results.jsx'
-import GirlMath from './screens/GirlMath.jsx'
-import Goals from './screens/Goals.jsx'
+import Home from './screens/Home.jsx'
+import Wishlist from './screens/Wishlist.jsx'
+import Progress from './screens/Progress.jsx'
 import Me from './screens/Me.jsx'
+import MoveSheet from './screens/MoveSheet.jsx'
 
-const ROUTES = ['translate', 'results', 'girlmath', 'goals', 'me']
+const ROUTES = ['home', 'wishlist', 'progress', 'me']
 const readHash = () => {
   const r = location.hash.replace(/^#\/?/, '')
-  return ROUTES.includes(r) ? r : 'translate'
+  return ROUTES.includes(r) ? r : 'home'
 }
 
 export default function App() {
@@ -20,6 +20,7 @@ export default function App() {
   const [route, setRoute] = useState(readHash)
   const [paywall, setPaywall] = useState(null)
   const [share, setShare] = useState(null)
+  const [move, setMove] = useState(null) // { start: moveId | null }
   const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone
 
   useEffect(() => {
@@ -28,26 +29,24 @@ export default function App() {
     return () => window.removeEventListener('hashchange', on)
   }, [])
   useEffect(() => { document.querySelector('.scroller')?.scrollTo(0, 0) }, [route])
-  useEffect(() => {
-    document.querySelector('meta[name=theme-color]')?.setAttribute('content', route === 'girlmath' || (route === 'results' && s.girlMath) ? '#FFE3F0' : '#FFF4E8')
-  }, [route, s.girlMath])
 
   const go = (r) => { location.hash = '/' + r }
   const openPaywall = (reason) => setPaywall({ reason })
+  const openMove = (start = null) => setMove({ start })
 
-  if (!s.onboarded) return <Onboarding onDone={() => set({ onboarded: true })} />
+  if (!s.onboarded) return <Onboarding s={s} set={set} />
 
-  const props = { s, set, go, openPaywall, openShare: setShare, standalone }
+  const props = { s, set, go, openPaywall, openShare: setShare, openMove, standalone }
   return (
-    <div className={`app route-${route} ${(route === 'girlmath' || (route === 'results' && s.girlMath)) ? 'theme-gm' : ''}`}>
+    <div className={`app route-${route}`}>
       <main className="scroller" key={route}>
-        {route === 'translate' && <Translate {...props} />}
-        {route === 'results' && <Results {...props} />}
-        {route === 'girlmath' && <GirlMath {...props} />}
-        {route === 'goals' && <Goals {...props} />}
+        {route === 'home' && <Home {...props} />}
+        {route === 'wishlist' && <Wishlist {...props} />}
+        {route === 'progress' && <Progress {...props} />}
         {route === 'me' && <Me {...props} />}
       </main>
-      <TabBar route={route} go={go} />
+      <TabBar route={route} go={go} onPlus={() => openMove()} />
+      <MoveSheet open={!!move} startMove={move?.start} onClose={() => setMove(null)} s={s} go={go} />
       <Paywall open={!!paywall} reason={paywall?.reason} onClose={() => setPaywall(null)} onUnlock={() => { set({ plus: true }); setPaywall(null) }} />
       <ShareSheet data={share} onClose={() => setShare(null)} />
     </div>

@@ -1,6 +1,6 @@
-# Oink (Translator prototype)
+# Girl Math (formerly Oink)
 
-Turns spending and screen time into things you can feel ("your DoorDash this year = 2 week-long trips to Tokyo"), with a Girl Math mode, savings goals and a demo paywall. Installable PWA, React + Vite, data stays on the device, AI parsing is mocked.
+A savings app that gamifies saving for wishlist items. Girl math jokes are the framing ("not buying it = making money", "returns are income", "sale = savings"), but each one is a real savings move that puts actual money in the jar for a wishlist item. Streaks, XP levels, badges, cost-per-wear verdicts, a demo paywall and shareable story cards. Installable PWA, React + Vite, data stays on the device.
 
 ```
 npm install

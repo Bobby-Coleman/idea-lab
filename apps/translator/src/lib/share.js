@@ -52,10 +52,10 @@ export async function renderCard({ chip, big, headline, sub, emoji, theme, mood 
   ctx.fillStyle = theme.ink
   ctx.textBaseline = 'alphabetic'
   ctx.font = `900 64px ${FONT}`
-  ctx.fillText('oink.', 96, 170)
+  ctx.fillText('girl math.', 96, 170)
   ctx.globalAlpha = 0.7
   ctx.font = `600 34px ${FONT}`
-  ctx.fillText('your spending, translated', 96, 222)
+  ctx.fillText('save for the things you want', 96, 222)
   ctx.globalAlpha = 1
 
   // chip
@@ -94,7 +94,7 @@ export async function renderCard({ chip, big, headline, sub, emoji, theme, mood 
 
   ctx.font = `700 38px ${FONT}`
   ctx.globalAlpha = 0.75
-  ctx.fillText('What did yours cost? Try Oink', 96, H - 120)
+  ctx.fillText('It\'s just math. Try Girl Math', 96, H - 120)
   ctx.globalAlpha = 1
 
   return new Promise((res) => c.toBlob(res, 'image/png'))
@@ -113,9 +113,9 @@ function roundRect(ctx, x, y, w, h, r) {
 // Opens the iOS share sheet with the image, or downloads it where sharing files isn't supported.
 export async function shareCard(data) {
   const blob = await renderCard(data)
-  const file = new File([blob], 'oink.png', { type: 'image/png' })
+  const file = new File([blob], 'girl-math.png', { type: 'image/png' })
   if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    try { await navigator.share({ files: [file], text: 'Oink translated my spending 🐷' }); return 'shared' } catch { return 'cancelled' }
+    try { await navigator.share({ files: [file], text: 'Girl math says I made money by not spending it 💅' }); return 'shared' } catch { return 'cancelled' }
   }
   const url = URL.createObjectURL(blob)
   return { url }
