@@ -45,6 +45,13 @@ change later you don't need to merge again.
   then the `<title>`, if those are missing.
 - Don't add a `.github/` folder or anything outside `apps/<slug>/`.
 
+## The launcher card
+
+The launcher is a ranked list of cards. Each card shows a phone-size screenshot of your app, taken
+automatically after every rebuild about 4 seconds after it loads, in a fresh browser with no saved
+data. So whatever a first-time visitor sees (usually onboarding) is the preview. Bobby's other live
+sites come from `hosting/sites.json`, which belongs to the hosting thread.
+
 ## Checking a deploy
 
 - Open your URL above. The launcher's "Recently updated" list shows when each app last went live.
