@@ -236,5 +236,21 @@
       "url": "https://bobby-coleman.github.io/jimothy-simulator/",
       "shotAt": "2026-10-20T17:08:24.451Z"
     }
+  },
+  "scrappy": {
+    "slug": "scrappy",
+    "tree": "4522bf8ce12ffbe38468bd1e690298bfdcdd9e7b",
+    "commit": "70339f50afa32d6238f9fef866baeea1e7a83f63",
+    "branch": "claude/idea-lab-hosting-uq6946",
+    "committedAt": "2026-10-20T17:20:45.000Z",
+    "deployedAt": "2026-10-20T17:21:11.093Z",
+    "name": "Scrappy",
+    "title": "Scrappy",
+    "description": "Your camera roll, bound into a book.",
+    "color": "#0B0B0C",
+    "icon": "scrappy/apple-touch-icon.png",
+    "firstDeployedAt": "2026-10-20T17:21:11.093Z",
+    "shotTree": "4522bf8ce12ffbe38468bd1e690298bfdcdd9e7b",
+    "shotAt": "2026-10-20T17:21:33.098Z"
   }
 }
