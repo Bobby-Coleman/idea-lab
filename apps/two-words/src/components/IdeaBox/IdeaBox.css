@@ -1,0 +1,44 @@
+.idea-box {
+    border: 2px solid #61c4c9;
+    background-color: #3ea7be;
+    margin: 20px;
+}
+
+.entry-group {
+    margin: 10px; 
+}
+
+.entry-line {
+    background-color: #61c4c9;
+    color: white;
+}
+
+::-webkit-input-placeholder {
+    color: white;
+}
+
+textarea {
+    background-color: #61c4c9;
+    color: white;
+    border: none;
+}
+
+label {
+    color: white;
+}
+
+.link-to-signup {
+    margin: 15px;
+}
+
+.idea-box-disabled {
+    opacity: 0.6;
+}
+
+@media(min-width: 700px) {
+    .idea-box {
+        width: 25em;
+    }
+}
+.idea-saved { color: #fff; margin: 12px 0 0; text-align: center; }
+.idea-saved a { color: #fff; font-weight: bold; }

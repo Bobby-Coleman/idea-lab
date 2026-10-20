@@ -1,0 +1,58 @@
+footer {
+  padding: 10px;
+  color: white;
+  font-size: 0.5em;
+  display: flex;
+  justify-content: space-between;
+} 
+
+
+.App-main {
+  margin-top: 74px;
+}
+
+.btn, .btn-cancel {
+  font-size: 21px;
+  padding: 5px 20px;
+  border: 0;
+  color: #fff;
+  border-radius: 3px;
+  transition: all 250ms ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
+  margin: 20px;
+}
+
+.btn:hover {
+  background-color: #e7ab1d;
+}
+
+.btn {
+  background-color: #ffbd26;
+}
+
+.btn, .btn-cancel:focus {
+  outline: none;
+}
+
+.btn-cancel {
+  background-color: #c1c9d8;
+}
+
+.btn-cancel:hover {
+  background-color: #b4bac5;
+}
+
+.btn-no-margin {
+  margin: 0;
+}
+
+.active-link {
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  footer {
+      display: none;
+  }
+}
