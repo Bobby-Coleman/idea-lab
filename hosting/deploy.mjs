@@ -217,9 +217,14 @@ async function takeShots(appList, siteList) {
     })
     try {
       const page = await ctx.newPage()
-      await page.goto(url, { waitUntil: 'load', timeout: 30000 })
-      await page.waitForTimeout(3000)
-      await page.screenshot({ path: file, type: 'jpeg', quality: 70, timeout: 15000 })
+      // Heavy games may never fire 'load' in a headless browser; shoot whatever
+      // has rendered by then instead of giving up.
+      await page.goto(url, { waitUntil: 'load', timeout: 30000 }).catch(async (e) => {
+        if (!/Timeout/i.test(String(e))) throw e
+        log(`${url}: slow to load, taking the screenshot anyway`)
+      })
+      await page.waitForTimeout(4000)
+      await page.screenshot({ path: file, type: 'jpeg', quality: 70, timeout: 30000 })
       return true
     } catch (e) {
       log(`screenshot failed for ${url}: ${String(e.message || e).split('\n')[0]}`)
