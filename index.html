@@ -114,6 +114,15 @@
     .dragging .handle { cursor: grabbing; color: var(--fg); }
 
     .tip { margin: 26px 6px 0; color: var(--faint); font-size: 13px; text-align: center; }
+    #saved {
+      position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom) + 18px); transform: translate(-50%, 20px);
+      background: rgba(30, 30, 36, 0.92); color: var(--fg); border: 1px solid var(--line);
+      padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 600;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; max-width: calc(100% - 32px); text-align: center;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 20;
+    }
+    #saved.show { opacity: 1; transform: translate(-50%, 0); }
+    #saved.bad { background: #5a1d1d; border-radius: 16px; }
     .tip button { font: inherit; color: var(--muted); background: none; border: 0; text-decoration: underline; cursor: pointer; padding: 0; }
   </style>
 </head>
@@ -125,17 +134,93 @@
     </header>
     <nav class="chips" id="chips" aria-label="Filter"></nav>
     <div id="list"></div>
-    <p class="tip">Drag <b>⋮⋮</b> or tap the arrows to rank. Tap a rank number to jump it. Your order is saved on this device. <button id="reset" type="button">Reset order</button></p>
+    <p class="tip">Drag <b>⋮⋮</b> or tap the arrows to rank. Tap a rank number to jump it. Your order is saved on this device. <button id="share" type="button">Send ranking to another device</button> · <button id="reset" type="button">Reset order</button></p>
+  <div id="saved" role="status" aria-live="polite"></div>
   </main>
   <script>
-    const ITEMS = [{"id":"app:translator","kind":"prototype","name":"Girl Math","title":"Girl Math: save for your wishlist","description":"A savings jar for the things you want, powered by girl math.","url":"./translator/","icon":"./translator/icons/apple-touch-icon.png","color":"#FFF0F6","shot":"./shots/translator.jpg?v=2026-10-20T17%3A32%3A16.537Z","updatedAt":"2026-10-20T17:32:01.716Z","addedAt":"2026-10-20T17:32:01.716Z","broken":false},{"id":"app:two-words","kind":"prototype","name":"Two Words","title":"Two Words","description":"Two unrelated words to spark a new idea. Save the good ones.","url":"./two-words/","icon":"./two-words/apple-touch-icon.png","color":"#ffffff","shot":"./shots/two-words.jpg?v=2026-10-20T17%3A26%3A07.109Z","updatedAt":"2026-10-20T17:25:50.649Z","addedAt":"2026-10-20T17:25:50.649Z","broken":false},{"id":"app:scrappy","kind":"prototype","name":"Scrappy","title":"Scrappy","description":"Your camera roll, bound into a book.","url":"./scrappy/","icon":"./scrappy/apple-touch-icon.png","color":"#0B0B0C","shot":"./shots/scrappy.jpg?v=2026-10-20T17%3A21%3A33.098Z","updatedAt":"2026-10-20T17:21:11.093Z","addedAt":"2026-10-20T17:21:11.093Z","broken":false},{"id":"app:tiny-kitten-war","kind":"prototype","name":"Kitten War","title":"Tiny Kitten War","description":"A very big war. A very small cat.","url":"./tiny-kitten-war/","icon":"./tiny-kitten-war/apple-touch-icon.png","color":"#2b1d3a","shot":"./shots/tiny-kitten-war.jpg?v=2026-10-20T17%3A05%3A54.334Z","updatedAt":"2026-10-19T01:37:21.924Z","addedAt":"2026-10-19T01:37:21.924Z","broken":false},{"id":"app:unlock-gate","kind":"prototype","name":"Gate","title":"Unlock Gate","description":"Earn your scroll. Hold a plank, read a page or say a prayer before your social apps open.","url":"./unlock-gate/","icon":"./unlock-gate/apple-touch-icon.png","color":"#f5efe3","shot":"./shots/unlock-gate.jpg?v=2026-10-20T17%3A05%3A50.831Z","updatedAt":"2026-10-19T01:18:16.626Z","addedAt":"2026-10-19T01:18:16.626Z","broken":false},{"id":"app:decision-journal","kind":"prototype","name":"Hindsight","title":"Hindsight: Decision Journal","description":"Log decisions as you make them. Hindsight checks back at 30, 60 and 90 days and tells you how often your gut is right.","url":"./decision-journal/","icon":"./decision-journal/apple-touch-icon.png","color":"#f5f0e6","shot":"./shots/decision-journal.jpg?v=2026-10-20T17%3A05%3A47.529Z","updatedAt":"2026-10-19T01:16:04.362Z","addedAt":"2026-10-19T01:16:04.362Z","broken":false},{"id":"app:colony","kind":"prototype","name":"Colony","title":"Colony","description":"Start with one anthill. End with the world.","url":"./colony/","icon":"./colony/apple-touch-icon.png","color":"#1a110a","shot":"./shots/colony.jpg?v=2026-10-20T17%3A05%3A44.127Z","updatedAt":"2026-10-19T00:57:21.747Z","addedAt":"2026-10-19T00:57:21.747Z","broken":false},{"id":"app:slow-reveal","kind":"prototype","name":"Slow Reveal","title":"Slow Reveal","description":"Send a gift that unwraps a little more every day until the big reveal.","url":"./slow-reveal/","icon":"./slow-reveal/apple-touch-icon.png","color":"#fbf3e8","shot":"./shots/slow-reveal.jpg?v=2026-10-20T17%3A05%3A40.333Z","updatedAt":"2026-10-19T00:42:58.273Z","addedAt":"2026-10-19T00:42:58.273Z","broken":false},{"id":"app:tiny-lungs","kind":"prototype","name":"Tiny Lungs","title":"Tiny Lungs","description":"Quit vaping for someone small.","url":"./tiny-lungs/","icon":"./tiny-lungs/apple-touch-icon.png","color":"#DDF4EC","shot":"./shots/tiny-lungs.jpg?v=2026-10-20T17%3A05%3A36.648Z","updatedAt":"2026-10-19T00:02:11.849Z","addedAt":"2026-10-19T00:02:11.849Z","broken":false},{"id":"app:tapes","kind":"prototype","name":"Tapes","title":"Tapes","description":"A voice journal where every recording becomes a cassette on your shelf.","url":"./tapes/","icon":"./tapes/apple-touch-icon.png","color":"#F3EADB","shot":"./shots/tapes.jpg?v=2026-10-20T17%3A05%3A25.896Z","updatedAt":"2026-10-18T23:59:27.633Z","addedAt":"2026-10-18T23:59:27.633Z","broken":false},{"id":"app:pocket-pet","kind":"prototype","name":"Pocket Pet","title":"Pocket Pet","description":"Turn your real pet into a tiny buddy you can feed, pet and dress up.","url":"./pocket-pet/","icon":"./pocket-pet/icons/apple-touch-icon.png","color":"#fff6ec","shot":"./shots/pocket-pet.jpg?v=2026-10-20T17%3A05%3A32.947Z","updatedAt":"2026-10-18T23:59:23.476Z","addedAt":"2026-10-18T23:59:23.476Z","broken":false},{"id":"app:color-walk","kind":"prototype","name":"Color Walk","title":"Color Walk","description":"A relaxed daily walk. A new color every day.","url":"./color-walk/","icon":"./color-walk/icons/apple-touch-icon.png","color":"#F7F3EC","shot":"./shots/color-walk.jpg?v=2026-10-20T17%3A05%3A11.754Z","updatedAt":"2026-10-18T23:58:40.536Z","addedAt":"2026-10-18T23:58:40.536Z","broken":false},{"id":"app:wrapped-for-two","kind":"prototype","name":"Two of Us","title":"Two of Us","description":"A Wrapped-style story about you and your person.","url":"./wrapped-for-two/","icon":"./wrapped-for-two/icon-180.png","color":"#0E0C14","shot":"./shots/wrapped-for-two.jpg?v=2026-10-20T17%3A05%3A29.433Z","updatedAt":"2026-10-18T23:57:21.636Z","addedAt":"2026-10-18T23:57:21.636Z","broken":false},{"id":"app:read-the-texts","kind":"prototype","name":"Read","title":"Read the Texts","description":"Screenshot the chat. Find out if they're into you.","url":"./read-the-texts/","icon":"./read-the-texts/apple-touch-icon.png","color":"#0d0a12","shot":"./shots/read-the-texts.jpg?v=2026-10-20T17%3A05%3A18.964Z","updatedAt":"2026-10-18T23:56:43.107Z","addedAt":"2026-10-18T23:56:43.107Z","broken":false},{"id":"app:step-breaker","kind":"prototype","name":"Pip","title":"Pip: tiny steps","description":"Pip turns scary tasks into tiny, doable steps.","url":"./step-breaker/","icon":"./step-breaker/icons/apple-touch-icon.png","color":"#FFF6EC","shot":"./shots/step-breaker.jpg?v=2026-10-20T17%3A05%3A15.170Z","updatedAt":"2026-10-18T23:56:41.621Z","addedAt":"2026-10-18T23:56:41.621Z","broken":false},{"id":"site:riffraff","kind":"site","name":"RiffRaff","title":"RiffRaff: Party Games","description":"Phone-only party games. No TV, no console, just everyone's phones.","url":"https://bobby-coleman.github.io/jacked-box/","icon":null,"color":"#ff5a36","shot":"./shots/site-riffraff.jpg?v=2026-10-21T10%3A27%3A43.018Z","host":"bobby-coleman.github.io/jacked-box"},{"id":"site:ethos","kind":"site","name":"Ethos","title":"Ethos","description":"Personal LifeOS dashboard: durable capture and a governed memory, behind an invite-only sign-in.","url":"https://ethos.sarl/","icon":null,"color":"#2b2b33","shot":"./shots/site-ethos.jpg?v=2026-10-21T10%3A27%3A48.166Z","host":"ethos.sarl"},{"id":"site:jimothy-simulator","kind":"site","name":"Jimothy","title":"Jimothy Simulator","description":"Goat Simulator-style physics sandbox starring Jimothy, the round raccoon of Ballard.","url":"https://bobby-coleman.github.io/jimothy-simulator/","icon":null,"color":"#5c8d3a","shot":"./shots/site-jimothy-simulator.jpg?v=2026-10-21T10%3A28%3A17.926Z","host":"bobby-coleman.github.io/jimothy-simulator"},{"id":"site:the-chamber","kind":"site","name":"The Chamber","title":"The Chamber","description":"A level-based WebGPU survival game.","url":"https://bobby-coleman.github.io/the-chamber-1/","icon":null,"color":"#3a2f52","shot":"./shots/site-the-chamber.jpg?v=2026-10-21T10%3A28%3A22.983Z","host":"bobby-coleman.github.io/the-chamber-1"},{"id":"site:whisker","kind":"site","name":"Whisker","title":"Whisker","description":"Live from the WHISKER repo.","url":"https://bobby-coleman.github.io/WHISKER/","icon":null,"color":"#c27b3e","shot":"./shots/site-whisker.jpg?v=2026-10-21T10%3A28%3A33.360Z","host":"bobby-coleman.github.io/WHISKER"},{"id":"site:play-me","kind":"site","name":"Play Me","title":"Play Me","description":"Built with Rork, live on Vercel.","url":"https://rork-play-me.vercel.app/","icon":null,"color":"#7b5cff","shot":"./shots/site-play-me.jpg?v=2026-10-21T10%3A28%3A38.170Z","host":"rork-play-me.vercel.app"},{"id":"site:cursed-depths","kind":"site","name":"Cursed Depths","title":"Cursed Depths","description":"A roguelike dungeon crawler with curses.","url":"https://bobby-coleman.github.io/CURSED-DEPTHS-3-DESKTOP/","icon":null,"color":"#7a1f2b","shot":"./shots/site-cursed-depths.jpg?v=2026-10-21T10%3A28%3A44.768Z","host":"bobby-coleman.github.io/CURSED-DEPTHS-3-DESKTOP"}]
+    const ITEMS = [{"id":"app:translator","kind":"prototype","name":"Girl Math","title":"Girl Math: save for your wishlist","description":"A savings jar for the things you want, powered by girl math.","url":"./translator/","icon":"./translator/icons/apple-touch-icon.png","color":"#FFF0F6","shot":"./shots/translator.jpg?v=2026-10-20T17%3A32%3A16.537Z","updatedAt":"2026-10-20T17:32:01.716Z","addedAt":"2026-10-20T17:32:01.716Z","broken":false},{"id":"app:two-words","kind":"prototype","name":"Two Words","title":"Two Words","description":"Two unrelated words to spark a new idea. Save the good ones.","url":"./two-words/","icon":"./two-words/apple-touch-icon.png","color":"#ffffff","shot":"./shots/two-words.jpg?v=2026-10-20T17%3A26%3A07.109Z","updatedAt":"2026-10-20T17:25:50.649Z","addedAt":"2026-10-20T17:25:50.649Z","broken":false},{"id":"app:scrappy","kind":"prototype","name":"Scrappy","title":"Scrappy","description":"Your camera roll, bound into a book.","url":"./scrappy/","icon":"./scrappy/apple-touch-icon.png","color":"#0B0B0C","shot":"./shots/scrappy.jpg?v=2026-10-20T17%3A21%3A33.098Z","updatedAt":"2026-10-20T17:21:11.093Z","addedAt":"2026-10-20T17:21:11.093Z","broken":false},{"id":"app:tiny-kitten-war","kind":"prototype","name":"Kitten War","title":"Tiny Kitten War","description":"A very big war. A very small cat.","url":"./tiny-kitten-war/","icon":"./tiny-kitten-war/apple-touch-icon.png","color":"#2b1d3a","shot":"./shots/tiny-kitten-war.jpg?v=2026-10-20T17%3A05%3A54.334Z","updatedAt":"2026-10-19T01:37:21.924Z","addedAt":"2026-10-19T01:37:21.924Z","broken":false},{"id":"app:unlock-gate","kind":"prototype","name":"Gate","title":"Unlock Gate","description":"Earn your scroll. Hold a plank, read a page or say a prayer before your social apps open.","url":"./unlock-gate/","icon":"./unlock-gate/apple-touch-icon.png","color":"#f5efe3","shot":"./shots/unlock-gate.jpg?v=2026-10-20T17%3A05%3A50.831Z","updatedAt":"2026-10-19T01:18:16.626Z","addedAt":"2026-10-19T01:18:16.626Z","broken":false},{"id":"app:decision-journal","kind":"prototype","name":"Hindsight","title":"Hindsight: Decision Journal","description":"Log decisions as you make them. Hindsight checks back at 30, 60 and 90 days and tells you how often your gut is right.","url":"./decision-journal/","icon":"./decision-journal/apple-touch-icon.png","color":"#f5f0e6","shot":"./shots/decision-journal.jpg?v=2026-10-20T17%3A05%3A47.529Z","updatedAt":"2026-10-19T01:16:04.362Z","addedAt":"2026-10-19T01:16:04.362Z","broken":false},{"id":"app:colony","kind":"prototype","name":"Colony","title":"Colony","description":"Start with one anthill. End with the world.","url":"./colony/","icon":"./colony/apple-touch-icon.png","color":"#1a110a","shot":"./shots/colony.jpg?v=2026-10-20T17%3A05%3A44.127Z","updatedAt":"2026-10-19T00:57:21.747Z","addedAt":"2026-10-19T00:57:21.747Z","broken":false},{"id":"app:slow-reveal","kind":"prototype","name":"Slow Reveal","title":"Slow Reveal","description":"Send a gift that unwraps a little more every day until the big reveal.","url":"./slow-reveal/","icon":"./slow-reveal/apple-touch-icon.png","color":"#fbf3e8","shot":"./shots/slow-reveal.jpg?v=2026-10-20T17%3A05%3A40.333Z","updatedAt":"2026-10-19T00:42:58.273Z","addedAt":"2026-10-19T00:42:58.273Z","broken":false},{"id":"app:tiny-lungs","kind":"prototype","name":"Tiny Lungs","title":"Tiny Lungs","description":"Quit vaping for someone small.","url":"./tiny-lungs/","icon":"./tiny-lungs/apple-touch-icon.png","color":"#DDF4EC","shot":"./shots/tiny-lungs.jpg?v=2026-10-20T17%3A05%3A36.648Z","updatedAt":"2026-10-19T00:02:11.849Z","addedAt":"2026-10-19T00:02:11.849Z","broken":false},{"id":"app:tapes","kind":"prototype","name":"Tapes","title":"Tapes","description":"A voice journal where every recording becomes a cassette on your shelf.","url":"./tapes/","icon":"./tapes/apple-touch-icon.png","color":"#F3EADB","shot":"./shots/tapes.jpg?v=2026-10-20T17%3A05%3A25.896Z","updatedAt":"2026-10-18T23:59:27.633Z","addedAt":"2026-10-18T23:59:27.633Z","broken":false},{"id":"app:pocket-pet","kind":"prototype","name":"Pocket Pet","title":"Pocket Pet","description":"Turn your real pet into a tiny buddy you can feed, pet and dress up.","url":"./pocket-pet/","icon":"./pocket-pet/icons/apple-touch-icon.png","color":"#fff6ec","shot":"./shots/pocket-pet.jpg?v=2026-10-20T17%3A05%3A32.947Z","updatedAt":"2026-10-18T23:59:23.476Z","addedAt":"2026-10-18T23:59:23.476Z","broken":false},{"id":"app:color-walk","kind":"prototype","name":"Color Walk","title":"Color Walk","description":"A relaxed daily walk. A new color every day.","url":"./color-walk/","icon":"./color-walk/icons/apple-touch-icon.png","color":"#F7F3EC","shot":"./shots/color-walk.jpg?v=2026-10-20T17%3A05%3A11.754Z","updatedAt":"2026-10-18T23:58:40.536Z","addedAt":"2026-10-18T23:58:40.536Z","broken":false},{"id":"app:wrapped-for-two","kind":"prototype","name":"Two of Us","title":"Two of Us","description":"A Wrapped-style story about you and your person.","url":"./wrapped-for-two/","icon":"./wrapped-for-two/icon-180.png","color":"#0E0C14","shot":"./shots/wrapped-for-two.jpg?v=2026-10-20T17%3A05%3A29.433Z","updatedAt":"2026-10-18T23:57:21.636Z","addedAt":"2026-10-18T23:57:21.636Z","broken":false},{"id":"app:read-the-texts","kind":"prototype","name":"Read","title":"Read the Texts","description":"Screenshot the chat. Find out if they're into you.","url":"./read-the-texts/","icon":"./read-the-texts/apple-touch-icon.png","color":"#0d0a12","shot":"./shots/read-the-texts.jpg?v=2026-10-20T17%3A05%3A18.964Z","updatedAt":"2026-10-18T23:56:43.107Z","addedAt":"2026-10-18T23:56:43.107Z","broken":false},{"id":"app:step-breaker","kind":"prototype","name":"Pip","title":"Pip: tiny steps","description":"Pip turns scary tasks into tiny, doable steps.","url":"./step-breaker/","icon":"./step-breaker/icons/apple-touch-icon.png","color":"#FFF6EC","shot":"./shots/step-breaker.jpg?v=2026-10-20T17%3A05%3A15.170Z","updatedAt":"2026-10-18T23:56:41.621Z","addedAt":"2026-10-18T23:56:41.621Z","broken":false},{"id":"site:riffraff","kind":"site","name":"RiffRaff","title":"RiffRaff: Party Games","description":"Phone-only party games. No TV, no console, just everyone's phones.","url":"https://bobby-coleman.github.io/jacked-box/","icon":null,"color":"#ff5a36","shot":"./shots/site-riffraff.jpg?v=2026-10-21T18%3A29%3A49.029Z","host":"bobby-coleman.github.io/jacked-box"},{"id":"site:ethos","kind":"site","name":"Ethos","title":"Ethos","description":"Personal LifeOS dashboard: durable capture and a governed memory, behind an invite-only sign-in.","url":"https://ethos.sarl/","icon":null,"color":"#2b2b33","shot":"./shots/site-ethos.jpg?v=2026-10-21T18%3A29%3A54.302Z","host":"ethos.sarl"},{"id":"site:jimothy-simulator","kind":"site","name":"Jimothy","title":"Jimothy Simulator","description":"Goat Simulator-style physics sandbox starring Jimothy, the round raccoon of Ballard.","url":"https://bobby-coleman.github.io/jimothy-simulator/","icon":null,"color":"#5c8d3a","shot":"./shots/site-jimothy-simulator.jpg?v=2026-10-21T18%3A30%3A22.107Z","host":"bobby-coleman.github.io/jimothy-simulator"},{"id":"site:the-chamber","kind":"site","name":"The Chamber","title":"The Chamber","description":"A level-based WebGPU survival game.","url":"https://bobby-coleman.github.io/the-chamber-1/","icon":null,"color":"#3a2f52","shot":"./shots/site-the-chamber.jpg?v=2026-10-21T18%3A30%3A27.170Z","host":"bobby-coleman.github.io/the-chamber-1"},{"id":"site:whisker","kind":"site","name":"Whisker","title":"Whisker","description":"Live from the WHISKER repo.","url":"https://bobby-coleman.github.io/WHISKER/","icon":null,"color":"#c27b3e","shot":"./shots/site-whisker.jpg?v=2026-10-21T18%3A30%3A35.214Z","host":"bobby-coleman.github.io/WHISKER"},{"id":"site:play-me","kind":"site","name":"Play Me","title":"Play Me","description":"Built with Rork, live on Vercel.","url":"https://rork-play-me.vercel.app/","icon":null,"color":"#7b5cff","shot":"./shots/site-play-me.jpg?v=2026-10-21T18%3A30%3A39.861Z","host":"rork-play-me.vercel.app"},{"id":"site:cursed-depths","kind":"site","name":"Cursed Depths","title":"Cursed Depths","description":"A roguelike dungeon crawler with curses.","url":"https://bobby-coleman.github.io/CURSED-DEPTHS-3-DESKTOP/","icon":null,"color":"#7a1f2b","shot":"./shots/site-cursed-depths.jpg?v=2026-10-21T18%3A30%3A45.495Z","host":"bobby-coleman.github.io/CURSED-DEPTHS-3-DESKTOP"}]
     const KEY = 'idealab.rank.v1'
     const FILTER_KEY = 'idealab.filter.v1'
     const store = {
       get(k) { try { return JSON.parse(localStorage.getItem(k)) } catch { return null } },
-      set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)) } catch {} },
+      set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true } catch { return false } },
       del(k) { try { localStorage.removeItem(k) } catch {} },
     }
+
+    // The ranking is kept in three places (localStorage, a long-lived cookie and
+    // IndexedDB), each stamped with when it was saved; the newest copy wins. iOS
+    // can drop one of them (storage pressure, settings, in-app browsers) without
+    // touching the others.
+    const rank = {
+      cookie: 'idealab_rank',
+      read() {
+        const copies = [store.get(KEY)]
+        try {
+          const m = document.cookie.match(new RegExp('(?:^|; )' + this.cookie + '=([^;]*)'))
+          if (m) copies.push(JSON.parse(decodeURIComponent(m[1])))
+        } catch {}
+        return newest(copies)
+      },
+      write(order) {
+        const rec = { at: Date.now(), order }
+        let ok = store.set(KEY, rec)
+        try {
+          document.cookie = `${this.cookie}=${encodeURIComponent(JSON.stringify(rec))}; max-age=34560000; path=/; SameSite=Lax; Secure`
+          ok = ok || document.cookie.includes(this.cookie + '=')
+        } catch {}
+        idb.put(rec).then((stored) => { if (stored && !ok) showSaved(true) })
+        return ok
+      },
+      clear() {
+        store.del(KEY)
+        try { document.cookie = `${this.cookie}=; max-age=0; path=/` } catch {}
+        idb.put({ at: Date.now(), order: [] })
+      },
+    }
+    // Older versions saved a bare array of ids.
+    function newest(copies) {
+      return copies
+        .map((c) => Array.isArray(c) ? { at: 0, order: c } : c)
+        .filter((c) => c && Array.isArray(c.order))
+        .sort((a, b) => b.at - a.at)[0] || null
+    }
+    const idb = {
+      open() {
+        return new Promise((resolve) => {
+          try {
+            const req = indexedDB.open('idealab', 1)
+            req.onupgradeneeded = () => req.result.createObjectStore('kv')
+            req.onsuccess = () => resolve(req.result)
+            req.onerror = () => resolve(null)
+          } catch { resolve(null) }
+        })
+      },
+      async get() {
+        const db = await this.open()
+        if (!db) return null
+        return new Promise((resolve) => {
+          try {
+            const req = db.transaction('kv').objectStore('kv').get('rank')
+            req.onsuccess = () => resolve(req.result || null)
+            req.onerror = () => resolve(null)
+          } catch { resolve(null) }
+        })
+      },
+      async put(rec) {
+        const db = await this.open()
+        if (!db) return false
+        return new Promise((resolve) => {
+          try {
+            const tx = db.transaction('kv', 'readwrite')
+            tx.objectStore('kv').put(rec, 'rank')
+            tx.oncomplete = () => resolve(true)
+            tx.onerror = () => resolve(false)
+          } catch { resolve(false) }
+        })
+      },
+    }
+    try { navigator.storage?.persist?.() } catch {}
+
     const byId = new Map(ITEMS.map((it) => [it.id, it]))
     const list = document.getElementById('list')
     const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
@@ -147,8 +232,9 @@
       return rtf.format(Math.round(v), u)
     }
 
+    let current = rank.read()
     function savedOrder() {
-      const saved = (store.get(KEY) || []).filter((id) => byId.has(id))
+      const saved = (current?.order || []).filter((id) => byId.has(id))
       const rest = ITEMS.map((it) => it.id).filter((id) => !saved.includes(id))
       return [...saved, ...rest]
     }
@@ -199,7 +285,20 @@
         c.querySelector('.down').disabled = i === vis.length - 1
       })
     }
-    function save() { store.set(KEY, cards().map((c) => c.dataset.id)); refresh() }
+    function save() {
+      const order = cards().map((c) => c.dataset.id)
+      current = { at: Date.now(), order }
+      showSaved(rank.write(order))
+      refresh()
+    }
+    let savedTimer = 0
+    function showSaved(ok) {
+      const el = document.getElementById('saved')
+      el.textContent = ok ? 'Ranking saved' : "This browser won't let the page save. Open it in Safari or from your Home Screen."
+      el.className = ok ? 'show' : 'show bad'
+      clearTimeout(savedTimer)
+      if (ok) savedTimer = setTimeout(() => { el.className = '' }, 1600)
+    }
 
     // Animate cards from their old positions to the new ones.
     function flip(mutate) {
@@ -323,7 +422,8 @@
 
     document.getElementById('reset').addEventListener('click', () => {
       if (!confirm('Reset your ranking to the default order?')) return
-      store.del(KEY)
+      rank.clear()
+      current = null
       render()
     })
 
@@ -335,6 +435,41 @@
       applyFilter()
     }
     render()
+
+    // IndexedDB answers asynchronously; if it holds a newer ranking, use it.
+    idb.get().then((rec) => {
+      const best = newest([current, rec])
+      if (best && best !== current && best.at > (current?.at || 0)) {
+        current = best
+        store.set(KEY, best)
+        render()
+      } else if (current && (!rec || rec.at < current.at)) {
+        idb.put(current)
+      }
+    })
+
+    // A "#rank=..." link carries a ranking from another browser or device.
+    function importFromLink() {
+      const m = location.hash.match(/rank=([^&]+)/)
+      if (!m) return
+      history.replaceState(null, '', location.pathname + location.search)
+      let order
+      try { order = JSON.parse(decodeURIComponent(atob(m[1]))) } catch { return }
+      if (!Array.isArray(order) || !confirm('Use the ranking from this link on this device?')) return
+      current = { at: Date.now(), order }
+      render()
+      save()
+    }
+    importFromLink()
+    window.addEventListener('hashchange', importFromLink)
+
+    document.getElementById('share').addEventListener('click', async () => {
+      const url = location.origin + location.pathname + '#rank=' + btoa(encodeURIComponent(JSON.stringify(cards().map((c) => c.dataset.id))))
+      try {
+        if (navigator.share) await navigator.share({ title: 'My Idea Lab ranking', url })
+        else { await navigator.clipboard.writeText(url); alert('Link copied. Open it on your other device or browser to bring this ranking there.') }
+      } catch {}
+    })
   </script>
 </body>
 </html>
